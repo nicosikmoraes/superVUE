@@ -1,12 +1,12 @@
 <template>
   <div class="container_app">
-    <div class="navbar_component">
+    <div class="navbar_component" v-show="navStore.showNav">
       <Navbar />
     </div>
 
     <router-view />
 
-    <div class="footer_component">
+    <div class="footer_component" v-show="navStore.showNav">
       <Footer />
     </div>
   </div>
@@ -15,6 +15,17 @@
 <script setup>
 import Navbar from '@/components/app/navbar/navbar.vue'
 import Footer from '@/components/app/footer.vue'
+import { useNavStore } from '@/stores/navbarStore'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const navStore = useNavStore()
+const router = useRouter()
+
+onMounted(() => {
+  navStore.ActiveNav()
+  router.push('/')
+})
 </script>
 
 <style>
@@ -46,7 +57,6 @@ import Footer from '@/components/app/footer.vue'
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  border: 1px solid red;
   align-items: center;
   justify-content: center;
 }
