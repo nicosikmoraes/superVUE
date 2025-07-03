@@ -10,7 +10,7 @@
         <h2>Senha</h2>
         <input v-model="form.password" type="password" placeholder="Digite sua Senha" required />
       </div>
-      <button type="submit">
+      <button type="submit" :disabled="loading">
         <Spinner v-if="loading" />
         <span v-else>Entrar</span>
       </button>

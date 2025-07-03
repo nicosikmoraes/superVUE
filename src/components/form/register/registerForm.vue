@@ -18,7 +18,7 @@
         <input type="password" v-model="form.password" placeholder="Digite sua Senha" />
         <p v-if="errors.password" class="text-red-500 text-sm">{{ errors.password }}</p>
       </div>
-      <button type="submit">
+      <button type="submit" :disabled="loading">
         <Spinner v-if="loading" />
         <span v-else>Cadastrar</span>
       </button>
