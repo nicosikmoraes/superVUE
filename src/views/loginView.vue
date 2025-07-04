@@ -6,6 +6,14 @@
 
 <script setup>
 import LoginComponent from '@/components/form/login/loginComponent.vue'
+import { onMounted } from 'vue'
+import { useNavStore } from '@/stores/navbarStore'
+
+const navStore = useNavStore()
+
+onMounted(() => {
+  navStore.showNav = false
+})
 </script>
 
 <style scoped>

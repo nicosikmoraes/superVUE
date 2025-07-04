@@ -50,8 +50,8 @@ async function login() {
       return
     }
 
-    console.log(res)
     router.push('/')
+    useAlert.loginAlert()
   } finally {
     loading.value = false
   }

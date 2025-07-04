@@ -1,6 +1,17 @@
 <template>
   <div class="options_container">
-    <div class="login_btn" @click="goToLogin()">Entrar</div>
+    <div v-show="!userStore.userMe.token" class="login_btn" @click="goToLogin()">Entrar</div>
+
+    <div
+      v-show="userStore.userMe.token"
+      class="user_options"
+      @click="navStore.showModal = !navStore.showModal"
+    >
+      <img id="img_conf" src="/src/assets/images/cog.png" />
+    </div>
+
+    <ModalConfig v-show="navStore.showModal" />
+
     <div class="cart_btn">
       <img id="img_cart" src="/src/assets/images/cart-plus.png" />
     </div>
@@ -10,10 +21,14 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useNavStore } from '@/stores/navbarStore'
+import { useUserStore } from '@/stores/userStore'
+import { useAlertStore } from '@/stores/alertasStore'
+import ModalConfig from '@/components/modal/modalConfig.vue'
 
 // Variáveis
 const router = useRouter()
 const navStore = useNavStore()
+const userStore = useUserStore()
 
 // Funções
 function goToLogin() {
@@ -27,7 +42,7 @@ function goToLogin() {
 .options_container {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
 }
 
 /* Button */
@@ -46,6 +61,16 @@ function goToLogin() {
   transform: scale(1.05);
 }
 
+/* Opções de Usuário */
+.user_options {
+  min-width: 40px;
+  opacity: 0.9;
+}
+
+.user_options:hover {
+  opacity: 1;
+}
+
 /* Carrinho */
 .cart_btn {
   min-width: 40px;
@@ -56,7 +81,13 @@ function goToLogin() {
   cursor: pointer;
 }
 
-#img_cart:hover {
+#img_cart:hover,
+#img_conf:hover {
   transform: scale(1.1);
+}
+
+#img_conf {
+  width: 40px;
+  cursor: pointer;
 }
 </style>

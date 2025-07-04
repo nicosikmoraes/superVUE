@@ -21,11 +21,6 @@ import { useRouter } from 'vue-router'
 
 const navStore = useNavStore()
 const router = useRouter()
-
-onMounted(() => {
-  navStore.ActiveNav()
-  router.push('/')
-})
 </script>
 
 <style>

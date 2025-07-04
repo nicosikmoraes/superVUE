@@ -6,6 +6,14 @@
 
 <script setup>
 import RegisterComponent from '@/components/form/register/registerComponent.vue'
+import { useNavStore } from '@/stores/navbarStore'
+import { onMounted } from 'vue'
+
+const navStore = useNavStore()
+
+onMounted(() => {
+  navStore.showNav = false
+})
 </script>
 
 <style scoped>

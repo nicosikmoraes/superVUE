@@ -22,7 +22,7 @@ import OptionsComponent from './optionsComponent.vue'
   align-items: center;
   justify-content: space-between;
   padding: 0px 20px;
-  height: 8vh;
+  height: 70px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 </style>

@@ -70,6 +70,7 @@ async function createUser() {
       return
     }
 
+    router.push('/')
     useAlert.registerAlert()
   } finally {
     loading.value = false
