@@ -1,12 +1,10 @@
 # SuperVUE
 
-## Author:
-
-## Nicolas Siqueira Moraes
+## Author: Nicolas Siqueira Moraes
 
 # Próximos passos:
 
-### Componente Config
+*Componente Config*
 
 Em perfil: Colocar um input para mandar uma foto de perfil, e deixar um img redonda para mostrar a foto. Além de colocar inputs para trocas o nome e email do usuário.
 
