@@ -12,7 +12,8 @@ Em segurança: Colocar um input para trocar a senha, deve primairamente pedir a 
 
 A cada mudança de aparece um alerta de sucesso ou erro (estilo ballon).
 
-*Deopis*
+
+*Depois*
 
 Criar uma conta com usuário admin. quando o usuário for admin, deve aparecer o outro side menu, com as opçoes do admin (criar moderador, criar categoria, adicionar produto, etc).
 
