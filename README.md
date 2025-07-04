@@ -12,7 +12,7 @@ Em segurança: Colocar um input para trocar a senha, deve primairamente pedir a 
 
 A cada mudança de aparece um alerta de sucesso ou erro (estilo ballon).
 
-DEPOIS
+*Deopis*
 
 Criar uma conta com usuário admin. quando o usuário for admin, deve aparecer o outro side menu, com as opçoes do admin (criar moderador, criar categoria, adicionar produto, etc).
 
@@ -26,20 +26,20 @@ _1 SEMANA_
 
 # Etapas:
 
-Desenvolver o component da Landing Page.
+- Desenvolver o component da Landing Page.
 
-Mostrar os itens na Landing Page
+- Mostrar os itens na Landing Page
 
-Desenvolver filtro por categorias e busca pelos itens
+- Desenvolver filtro por categorias e busca pelos itens
 
-Desenvolver Cupons e Promoções.
+- Desenvolver Cupons e Promoções.
 
-Criar o componente do carrinho.
+- Criar o componente do carrinho.
 
-Criar o componente de Envio dos produtos. Vai ter que pedir pro usuário o endereço de entrega. e deve aparecer a "porcetagem" que está de entregar.
+- Criar o componente de Envio dos produtos. Vai ter que pedir pro usuário o endereço de entrega. e deve aparecer a "porcetagem" que está de entregar.
 
-Usar o AbacatePay para realizar transações.
+- Usar o AbacatePay para realizar transações.
 
-Subir no docker usando Dockerfile e Docker Compose.
+- Subir no docker usando Dockerfile e Docker Compose.
 
-Tentar subir na aws.
+- Tentar subir na aws.
