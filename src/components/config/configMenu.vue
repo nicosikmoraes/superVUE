@@ -4,6 +4,8 @@
     <div class="side_menu">
       <UserSideMenu />
 
+      <AdminSideMenu v-if="userStore.moderator === true" />
+
       <h2 @click="router.push('/')">Voltar</h2>
       <h2 @click="quit()">Sair</h2>
     </div>
@@ -16,6 +18,7 @@ import { useUserStore } from '@/stores/userStore'
 import { useAlertStore } from '@/stores/alertasStore'
 import { useConfigStore } from '@/stores/configStore'
 import UserSideMenu from './user/userSideMenu.vue'
+import AdminSideMenu from './admin/adminSideMenu.vue'
 
 const router = useRouter()
 const userStore = useUserStore()

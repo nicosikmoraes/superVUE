@@ -39,6 +39,48 @@ export const useAlertStore = defineStore('alert', () => {
     })
   }
 
+  function updateNameAlert() {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'success',
+      title: 'Nome Atualizado!',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#7CBB70',
+      color: '#fff',
+    })
+  }
+
+  function deleteAlert() {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'success',
+      title: 'Conta Deletada!',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#7CBB70',
+      color: '#fff',
+    })
+  }
+
+  function updateEmailAlert() {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'success',
+      title: 'Email Atualizado!',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#7CBB70',
+      color: '#fff',
+    })
+  }
+
   // Alertas de Erro
   function errorRegisterAlert() {
     Swal.fire({
@@ -68,6 +110,34 @@ export const useAlertStore = defineStore('alert', () => {
     })
   }
 
+  function errorUpdateNameAlert() {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'error',
+      title: 'O nome precisa ser diferente!',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#DB4441',
+      color: '#fff',
+    })
+  }
+
+  function errorUpdateEmailAlert() {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'error',
+      title: 'O email precisa ser diferente!',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#DB4441',
+      color: '#fff',
+    })
+  }
+
   // Avisos
   function quitAlert() {
     Swal.fire({
@@ -87,8 +157,13 @@ export const useAlertStore = defineStore('alert', () => {
   return {
     errorRegisterAlert,
     errorLoginAlert,
+    errorUpdateNameAlert,
+    errorUpdateEmailAlert,
     quitAlert,
     registerAlert,
     loginAlert,
+    updateNameAlert,
+    updateEmailAlert,
+    deleteAlert,
   }
 })

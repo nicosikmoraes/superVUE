@@ -1,8 +1,12 @@
 <template>
   <div class="config_main">
     <div class="main_header"><h1 id="header_text">Configurações</h1></div>
-    <UserPerfil v-if="configStore.whichUserMenu === 0" />
-    <UserSecurity v-if="configStore.whichUserMenu === 1" />
+    <UserPerfil v-if="configStore.whichMenu === 0" />
+    <UserSecurity v-if="configStore.whichMenu === 1" />
+    <Moderators v-if="configStore.whichMenu === 2" />
+    <Categories v-if="configStore.whichMenu === 3" />
+    <Products v-if="configStore.whichMenu === 4" />
+    <Delivery v-if="configStore.whichMenu === 5" />
   </div>
 </template>
 
@@ -10,6 +14,10 @@
 import UserPerfil from './user/userPerfil.vue'
 import { useConfigStore } from '@/stores/configStore'
 import UserSecurity from './user/userSecurity.vue'
+import Moderators from './admin/moderators.vue'
+import Categories from './admin/categories.vue'
+import Products from './admin/products.vue'
+import Delivery from './admin/delivery.vue'
 
 const configStore = useConfigStore()
 </script>

@@ -17,6 +17,9 @@ export const useUserStore = defineStore(
       token: '',
     })
 
+    const admin = ref(false)
+    const moderator = ref(false)
+
     //Caminho padrão da API
     const api = axios.create({
       baseURL: 'http://35.196.79.227:8000',
@@ -67,7 +70,19 @@ export const useUserStore = defineStore(
           },
         )
 
-        setUserMe(response.data)
+        userMe.token = response.data.token
+
+        if (response.data.user.role === 'ADMIN') {
+          admin.value = true
+          moderator.value = true
+        } else if (response.data.user.role === 'MODERATOR') {
+          moderator.value = true
+        } else {
+          admin.value = false
+          moderator.value = false
+        }
+
+        getUserMe()
 
         console.log('Resposta do login:', response.data)
         return response.data
@@ -77,15 +92,16 @@ export const useUserStore = defineStore(
       }
     }
 
+    //Função para popular os dados com o do usuário logado
     function setUserMe(data) {
-      userMe.name = data.user.name
-      userMe.email = data.user.email
-      userMe.id = data.user.id
-      userMe.imagem = data.user.image_path
-      userMe.role = data.user.role
-      userMe.token = data.token
+      userMe.name = data.name
+      userMe.email = data.email
+      userMe.id = data.id
+      userMe.imagem = data.image_path
+      userMe.role = data.role
     }
 
+    //Função para remover os dados do usuário logado (EXIT)
     function quitUserMe() {
       userMe.name = ''
       userMe.email = ''
@@ -93,6 +109,80 @@ export const useUserStore = defineStore(
       userMe.imagem = ''
       userMe.role = ''
       userMe.token = ''
+      admin.value = false
+    }
+
+    //Função para atualizar o usuário logado (UPDATE)
+    async function updateUserMe(newName, newEmail) {
+      try {
+        // Valida que um dos dados não seja igual ao atual
+        if (newName === userMe.name && newEmail === userMe.email) {
+          throw new Error('Os dados não foram alterados')
+        }
+
+        const res = await api.put(
+          '/users/me',
+          {
+            name: newName,
+            email: newEmail,
+          },
+          {
+            headers: {
+              accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userMe.token}`,
+            },
+          },
+        )
+
+        await getUserMe()
+        return res.data
+      } catch (err) {
+        console.log('Erro no update:', err.response?.data || err.message)
+        return null
+      }
+    }
+
+    //Função para obter o usuário logado (GET)
+    async function getUserMe() {
+      try {
+        const res = await api.get('/users/me', {
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userMe.token}`,
+          },
+        })
+
+        console.log('Resposta do getUserMe:', res.data)
+
+        setUserMe(res.data)
+        return res.data
+      } catch (err) {
+        console.log('Erro no getUserMe:', err.response?.data || err.message)
+        return null
+      }
+    }
+
+    //Função para deletar o usuário logado (DELETE)
+    async function deleteUserMe() {
+      try {
+        const res = await api.delete('/users/me', {
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userMe.token}`,
+          },
+        })
+
+        console.log('Usuário deletado com sucesso!')
+
+        quitUserMe()
+        return res.data
+      } catch (err) {
+        console.log('Erro no deleteUserMe:', err.response?.data || err.message)
+        return null
+      }
     }
 
     // Retornando
@@ -101,7 +191,12 @@ export const useUserStore = defineStore(
       login,
       setUserMe,
       quitUserMe,
+      updateUserMe,
+      getUserMe,
+      deleteUserMe,
       userMe,
+      admin,
+      moderator,
     }
   },
   { persist: true },

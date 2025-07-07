@@ -1,6 +1,6 @@
 <template>
-  <h2 @click="configStore.whichUserMenu = 0">Perfil</h2>
-  <h2 @click="configStore.whichUserMenu = 1">Segurança</h2>
+  <h2 @click="configStore.whichMenu = 0">Perfil</h2>
+  <h2 @click="configStore.whichMenu = 1">Segurança</h2>
 </template>
 
 <script setup>
