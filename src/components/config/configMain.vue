@@ -15,7 +15,7 @@ import UserPerfil from './user/userPerfil.vue'
 import { useConfigStore } from '@/stores/configStore'
 import UserSecurity from './user/userSecurity.vue'
 import Moderators from './admin/moderators.vue'
-import Categories from './admin/categories.vue'
+import Categories from './admin/categories/categories.vue'
 import Products from './admin/products.vue'
 import Delivery from './admin/delivery.vue'
 
@@ -25,7 +25,7 @@ const configStore = useConfigStore()
 <style scoped>
 .config_main {
   min-width: 450px;
-  min-height: 65vh;
+  height: 65vh;
   border-radius: 12px;
   box-shadow: 0px 4px 16px #969696;
 }

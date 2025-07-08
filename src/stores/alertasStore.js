@@ -53,12 +53,54 @@ export const useAlertStore = defineStore('alert', () => {
     })
   }
 
+  function updateImageAlert() {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'success',
+      title: 'Imagem Atualizada!',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#7CBB70',
+      color: '#fff',
+    })
+  }
+
+  function categoryAlert() {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'success',
+      title: 'Categoria Criada!',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#7CBB70',
+      color: '#fff',
+    })
+  }
+
   function deleteAlert() {
     Swal.fire({
       toast: true,
       position: 'bottom-end',
       icon: 'success',
       title: 'Conta Deletada!',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#7CBB70',
+      color: '#fff',
+    })
+  }
+
+  function categoryDeleteAlert() {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'success',
+      title: 'Categoria Deletada!',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
@@ -138,6 +180,20 @@ export const useAlertStore = defineStore('alert', () => {
     })
   }
 
+  function errorUploadAlert() {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'error',
+      title: 'Apenas arquivos JPG ou PNG são permitidos.',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#DB4441',
+      color: '#fff',
+    })
+  }
+
   // Avisos
   function quitAlert() {
     Swal.fire({
@@ -159,11 +215,15 @@ export const useAlertStore = defineStore('alert', () => {
     errorLoginAlert,
     errorUpdateNameAlert,
     errorUpdateEmailAlert,
+    errorUploadAlert,
     quitAlert,
     registerAlert,
     loginAlert,
     updateNameAlert,
     updateEmailAlert,
+    updateImageAlert,
     deleteAlert,
+    categoryDeleteAlert,
+    categoryAlert,
   }
 })

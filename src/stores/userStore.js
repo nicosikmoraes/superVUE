@@ -99,6 +99,8 @@ export const useUserStore = defineStore(
       userMe.id = data.id
       userMe.imagem = data.image_path
       userMe.role = data.role
+
+      console.log('Imagem: ', userMe.imagem)
     }
 
     //Função para remover os dados do usuário logado (EXIT)
@@ -185,6 +187,28 @@ export const useUserStore = defineStore(
       }
     }
 
+    //Função para atualizar a imagem do usuário logado
+    async function uploadImagem(file) {
+      try {
+        const formData = new FormData()
+        formData.append('image', file)
+
+        const res = await api.put('/users/image', formData, {
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${userMe.token}`,
+          },
+        })
+
+        console.log('Imagem atualizada com sucesso!', res.data)
+        return res.data
+      } catch (err) {
+        console.log('Erro no uploadImagem:', err.response?.data || err.message)
+        return null
+      }
+    }
+
     // Retornando
     return {
       createUser,
@@ -194,6 +218,7 @@ export const useUserStore = defineStore(
       updateUserMe,
       getUserMe,
       deleteUserMe,
+      uploadImagem,
       userMe,
       admin,
       moderator,

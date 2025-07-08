@@ -8,9 +8,12 @@
 
 - Componente Config
 
-Em perfil: Colocar um input para mandar uma foto de perfil, e deixar um img redonda para mostrar a foto. Além de colocar inputs para trocas o nome e email do usuário.
+Componente das categorias - Feito!
+No dashboard tem que fazer um filtro pelas categorias usando checkboxes fazendo um componente na esquerda, separado com bordas cinzas. No celular vou mudar o navbar pra fazer um dropdown na lateral com os filtros(isso vai ser bem chatinho de fazer).
 
-A cada mudança de aparece um alerta de sucesso ou erro (estilo ballon).
+Componente dos produtos
+
+Componente dos pedidos (Esse da para deixar pra fazer depois do carrinho somente, para seguir o fluxo)
 
 DEPOIS
 
