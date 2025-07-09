@@ -13,16 +13,6 @@ import ShowProducts from './showProducts.vue'
 import { useAdminStore } from '@/stores/adminStore'
 
 const adminStore = useAdminStore()
-const products = ref([])
-
-onMounted(() => {
-  getAllProducts()
-})
-
-async function getAllProducts() {
-  products.value = await adminStore.getAllProducts()
-  console.log('Produtos: ', products.value)
-}
 </script>
 
 <style scoped>
