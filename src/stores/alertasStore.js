@@ -209,6 +209,36 @@ export const useAlertStore = defineStore('alert', () => {
     })
   }
 
+  // ALERTA DE ERRO PADRÃO
+  function errorAlert(message) {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#DB4441',
+      color: '#fff',
+    })
+  }
+
+  //ALERTA DE SUCESSO PADRÃO
+  function successAlert(message) {
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      icon: 'success',
+      title: message,
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#7CBB70',
+      color: '#fff',
+    })
+  }
+
   // Retornando
   return {
     errorRegisterAlert,
@@ -225,5 +255,7 @@ export const useAlertStore = defineStore('alert', () => {
     deleteAlert,
     categoryDeleteAlert,
     categoryAlert,
+    errorAlert,
+    successAlert,
   }
 })

@@ -11,9 +11,7 @@
       />
       <h2>{{ category.name }}</h2>
 
-      <Spinner v-if="loadingDelete" class="img_delete" />
       <img
-        v-else
         class="img_delete"
         src="/src/assets/images/trash.png"
         alt=""
@@ -38,7 +36,6 @@ const adminStore = useAdminStore()
 const alertStore = useAlertStore()
 const categories = ref([])
 const loading = ref(false)
-const loadingDelete = ref(false)
 
 onMounted(() => {
   getCategories()
@@ -109,12 +106,14 @@ h1 {
   gap: 12px;
   align-items: center;
   border: 2px solid #b5d985;
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 8px 12px;
 }
 
 .img_category {
   height: 40px;
+  width: 60px;
+  object-fit: cover;
   border-radius: 5px;
 }
 
