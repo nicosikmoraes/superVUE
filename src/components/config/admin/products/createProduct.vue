@@ -1,6 +1,7 @@
 <template>
   <div class="create_product_container">
-    <h1>Criar Produto</h1>
+    <h1 v-if="adminStore.editProduct === false">Criar Produto</h1>
+    <h1 v-else>Editar Produto</h1>
 
     <div class="name_container">
       <h2 class="inp_text">Nome:</h2>
@@ -48,17 +49,28 @@
       </label>
       <img src="/src/assets/images/check.png" v-if="imageOk" />
     </div>
+    <p id="img_url">{{ form.imageFile }}</p>
 
-    <button class="btn" type="button" @click="createProduct()">
+    <button
+      v-if="adminStore.editProduct === false"
+      class="btn"
+      type="button"
+      @click="createProduct()"
+    >
       <Spinner v-if="loading" />
       <span v-else>Criar</span>
+    </button>
+
+    <button v-else class="btn" type="button" @click="editProduct()">
+      <Spinner v-if="loading" />
+      <span v-else>Editar</span>
     </button>
   </div>
 </template>
 
 <script setup>
 import Spinner from '@/components/form/spinner.vue'
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { useAdminStore } from '@/stores/adminStore'
 import { useAlertStore } from '@/stores/alertasStore'
 import SelectCategory from '../selectCategory.vue'
@@ -104,6 +116,51 @@ async function createProduct() {
   } finally {
     loading.value = false
   }
+}
+
+async function editProduct() {
+  loading.value = true
+  try {
+    if (!validate()) {
+      return
+    }
+
+    const res = await adminStore.updateProduct(form)
+
+    if (!res) {
+      alertStore.errorAlert('Selecione uma categoria primeiro')
+      return
+    }
+
+    adminStore.showProducts = true
+    adminStore.editProduct = false
+    alertStore.successAlert('Produto atualizado com sucesso!')
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  if (adminStore.editProduct === true) {
+    setData()
+    imageOk.value = true
+  }
+})
+
+async function setData() {
+  console.log('setData', adminStore.idProductSelected)
+  const product = adminStore.products.find((product) => product.id === adminStore.idProductSelected)
+
+  if (!product) {
+    console.warn('Produto não encontrado')
+    return
+  }
+
+  form.name = product.name
+  form.description = product.description
+  form.price = product.price
+  form.stock = product.stock
+  form.imageFile = product.image_path
 }
 
 //Formatar preço
@@ -190,6 +247,17 @@ h1 {
   font-weight: 800;
 }
 
+#img_url {
+  color: black;
+  font-size: 12px;
+  margin-top: -13px;
+  margin-left: 5px;
+  width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Input */
 .inp,
 .inp_numeric {
@@ -269,8 +337,7 @@ h1 {
 }
 
 img {
-  height: 35px;
-  widows: 35px;
+  height: 30px;
   font-weight: 800;
 }
 

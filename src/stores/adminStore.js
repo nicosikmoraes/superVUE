@@ -6,12 +6,21 @@ import { useAlertStore } from './alertasStore'
 
 export const useAdminStore = defineStore('admin', () => {
   // Variáveis
+  const products = ref([])
+
+  //Stores
   const userStore = useUserStore()
-  const alertStore = useAlertStore()
+
+  //Mostrar Componentes
   const showCategories = ref(true)
   const showProducts = ref(true)
+  const editProduct = ref(false)
+
+  //IDs
   const idSelected = ref(null)
-  const products = ref([])
+  const idProductSelected = ref(null)
+
+  //Loading
   const loadingProducts = ref(false)
 
   //Caminho padrão da API
@@ -90,7 +99,6 @@ export const useAdminStore = defineStore('admin', () => {
         },
       })
 
-      console.log('Categorias obtidas com sucesso!', res.data)
       return res.data
     } catch (err) {
       console.log('Erro no getCategories:', err.response?.data || err.message)
@@ -157,9 +165,90 @@ export const useAdminStore = defineStore('admin', () => {
     }
   }
 
+  async function updateProduct(data) {
+    if (
+      data.imageFile !==
+      products.value.find((product) => product.id === idProductSelected.value).image_path
+    ) {
+      console.log('Imagem alterada')
+      await updateImg(data.imageFile)
+    }
+
+    await updateStock(data.stock)
+
+    try {
+      const response = await api.put(
+        `/products/${idProductSelected.value}`,
+        {
+          name: data.name,
+          price: data.price,
+          description: data.description,
+          category_id: idSelected.value,
+        },
+        {
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userStore.userMe.token}`,
+          },
+        },
+      )
+
+      console.log('Produto atualizado com sucesso!', response.data)
+      return response.data
+    } catch (err) {
+      console.log('Erro no editProduct:', err.response?.data || err.message)
+      return null
+    }
+  }
+
+  async function updateStock(stock) {
+    try {
+      const response = await api.put(
+        `/products/${idProductSelected.value}/stock`,
+        {
+          stock: stock,
+        },
+        {
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userStore.userMe.token}`,
+          },
+        },
+      )
+
+      return response.data
+    } catch (err) {
+      console.log('Erro no updateStock:', err.response?.data || err.message)
+      return null
+    }
+  }
+
+  async function updateImg(imageFile) {
+    try {
+      const formData = new FormData()
+      formData.append('image', imageFile)
+
+      const response = await api.put(`/products/${idProductSelected.value}/image`, formData, {
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userStore.userMe.token}`,
+        },
+      })
+
+      console.log('Imagem atualizada com sucesso!', response.data)
+      return response.data
+    } catch (err) {
+      console.log('Erro no updateImg:', err.response?.data || err.message)
+      return null
+    }
+  }
+
   async function getAllProducts() {
     try {
-      const res = await api.get(`/products/user/${userStore.userMe.id}`, {
+      const res = await api.get(`/products/user/144`, {
         headers: {
           accept: 'application/json',
           'Content-Type': 'application/json',
@@ -167,8 +256,14 @@ export const useAdminStore = defineStore('admin', () => {
         },
       })
 
-      products.value = res.data
-      return res.data
+      //Adicionando a propriedade hover
+      const hoverProducts = res.data.map((product) => ({
+        ...product,
+        hover: false,
+      }))
+
+      products.value = hoverProducts
+      return products.value
     } catch (err) {
       console.log('Erro no getAllProducts:', err.response?.data || err.message)
       return null
@@ -193,8 +288,26 @@ export const useAdminStore = defineStore('admin', () => {
     }
   }
 
+  async function deleteProduct(id) {
+    try {
+      const res = await api.delete(`/products/${id}`, {
+        headers: {
+          accept: '*/*',
+          Authorization: `Bearer ${userStore.userMe.token}`,
+        },
+      })
+
+      console.log('Produto deletado com sucesso!', res.data)
+      return res.data
+    } catch (err) {
+      console.log('Erro no deleteProduct:', err.response?.data || err.message)
+      return null
+    }
+  }
+
   // Retornando
   return {
+    deleteProduct,
     createModerator,
     createCategory,
     getCategories,
@@ -202,10 +315,15 @@ export const useAdminStore = defineStore('admin', () => {
     createProduct,
     getAllProducts,
     getCategoryProducts,
+    updateProduct,
+    updateStock,
+    updateImg,
+    editProduct,
     showCategories,
     showProducts,
     idSelected,
     products,
     loadingProducts,
+    idProductSelected,
   }
 })

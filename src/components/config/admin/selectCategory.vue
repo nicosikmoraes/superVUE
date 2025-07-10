@@ -21,6 +21,10 @@ const adminStore = useAdminStore()
 
 onMounted(() => {
   getCategories()
+
+  if (adminStore.editProduct === true) {
+    getSelected()
+  }
 })
 
 //Função para buscar as categorias
@@ -43,6 +47,18 @@ async function changeCategory() {
   } finally {
     adminStore.loadingProducts = false
   }
+}
+
+async function getSelected() {
+  const product = adminStore.products.find((product) => product.id === adminStore.idProductSelected)
+
+  if (!product) {
+    console.warn('Produto não encontrado')
+    return
+  }
+
+  selected.value = product.category_id
+  await changeCategory()
 }
 </script>
 

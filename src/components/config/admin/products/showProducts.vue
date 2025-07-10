@@ -15,15 +15,28 @@
         <div
           class="product"
           :style="{ backgroundImage: `url(http://35.196.79.227:8000${product.image_path})` }"
+          @mouseover="product.hover = true"
+          @mouseleave="product.hover = false"
         >
+          <Transition name="fade">
+            <HoverProduct v-if="product.hover === true" :id="product.id" :stock="product.stock" />
+          </Transition>
+
+          <div class="info_product">
+            <h2>{{ product.name }}</h2>
+            <p>R$ {{ product.price }}</p>
+          </div>
+
           <span class="quantity">{{ product.stock }}</span>
-          <h2>{{ product.name }}</h2>
-          <p>R$ {{ product.price }}</p>
         </div>
       </div>
     </div>
 
-    <button type="button" class="btn" @click="adminStore.showProducts = false">
+    <button
+      type="button"
+      class="btn"
+      @click="((adminStore.showProducts = false), (adminStore.editProduct = false))"
+    >
       Criar Produto
     </button>
   </div>
@@ -34,6 +47,7 @@ import Spinner from '@/components/form/spinner.vue'
 import SelectCategory from '../selectCategory.vue'
 import { useAdminStore } from '@/stores/adminStore'
 import { onMounted, ref } from 'vue'
+import HoverProduct from './hoverProduct.vue'
 
 const adminStore = useAdminStore()
 
@@ -45,7 +59,7 @@ async function getAllProducts() {
   adminStore.loadingProducts = true
   try {
     await adminStore.getAllProducts()
-    console.log('Produtos: ', products.value)
+    console.log('Produtos: ', adminStore.products)
   } finally {
     adminStore.loadingProducts = false
   }
@@ -99,6 +113,13 @@ h1 {
   display: inline-block;
 }
 
+.info_product {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .product {
   display: flex;
   flex-direction: column;
@@ -117,6 +138,14 @@ h1 {
   background-position: center;
   font-size: 16.5px;
   padding: 3px 0px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.product:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  box-shadow: 0px 3px 8px #b6b6b6;
 }
 
 .quantity {
@@ -145,5 +174,19 @@ h1 {
   .btn {
     width: 100%;
   }
+}
+
+/* Animação */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
 }
 </style>

@@ -1,7 +1,14 @@
 <template>
   <h2 v-if="userStore.admin === true" @click="configStore.whichMenu = 2">Moderadores</h2>
   <h2 @click="((configStore.whichMenu = 3), (adminStore.showCategories = true))">Categorias</h2>
-  <h2 @click="((configStore.whichMenu = 4), (adminStore.showProducts = true))">Produtos</h2>
+  <h2
+    @click="
+      (((configStore.whichMenu = 4), (adminStore.showProducts = true)),
+      (adminStore.editProduct = false))
+    "
+  >
+    Produtos
+  </h2>
   <h2 @click="configStore.whichMenu = 5">Pedidos</h2>
 </template>
 

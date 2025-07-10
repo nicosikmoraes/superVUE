@@ -3,20 +3,25 @@
     <h1>Categorias</h1>
 
     <Spinner v-if="loading" />
-    <div class="category" v-else v-for="category in categories" :key="category.id">
-      <img
-        class="img_category"
-        v-if="category.image_path !== '/uploads/defaults/no_categories_image.png'"
-        :src="'http://35.196.79.227:8000' + category.image_path"
-      />
-      <h2>{{ category.name }}</h2>
+    <div class="category_container" v-else>
+      <div class="category" v-for="category in categories" :key="category.id">
+        <img
+          class="img_category"
+          v-if="category.image_path !== '/uploads/defaults/no_categories_image.png'"
+          :src="'http://35.196.79.227:8000' + category.image_path"
+        />
 
-      <img
-        class="img_delete"
-        src="/src/assets/images/trash.png"
-        alt=""
-        @click="deleteCategory(category.id)"
-      />
+        <div class="info">
+          <h2>{{ category.name }}</h2>
+
+          <img
+            class="img_delete"
+            src="/src/assets/images/trash.png"
+            alt=""
+            @click="deleteCategory(category.id)"
+          />
+        </div>
+      </div>
     </div>
 
     <button type="button" class="btn" @click="adminStore.showCategories = false">
@@ -73,6 +78,20 @@ async function deleteCategory(id) {
   gap: 20px;
 }
 
+.category_container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
 /* Titulo */
 h1 {
   font-size: clamp(17px, 20px, 24px);
@@ -102,23 +121,24 @@ h1 {
 /* Categorias */
 .category {
   display: flex;
-  flex-direction: row;
-  gap: 12px;
+  flex-direction: column;
+  gap: 6px;
   align-items: center;
   border: 2px solid #b5d985;
   border-radius: 8px;
-  padding: 8px 12px;
+  padding: 6px 6px;
+  width: 340px;
 }
 
 .img_category {
-  height: 40px;
-  width: 60px;
+  height: 75px;
+  width: 100%;
   object-fit: cover;
   border-radius: 5px;
 }
 
 .img_delete {
-  height: 27px;
+  height: 30px;
   cursor: pointer;
   margin-left: auto;
 }
@@ -129,16 +149,28 @@ h1 {
 
 h2 {
   color: black;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 5px;
 }
 
 /* Responsividade */
+
+@media (max-width: 900px) {
+  .category {
+    width: 200px;
+  }
+}
+
 @media (max-width: 600px) {
   .show_categories_container {
     padding: 20px 20px;
     flex-direction: column;
     gap: 15px;
+  }
+
+  .btn {
+    width: 200px;
   }
 }
 </style>
