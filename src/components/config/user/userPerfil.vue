@@ -156,6 +156,7 @@ h1 {
 
 .custom-file-upload {
   display: inline-block;
+  width: 105%;
   padding: 8px 12px;
   background-color: #b5d985;
   opacity: 0.9;
@@ -233,6 +234,10 @@ img {
     gap: 12px;
     align-items: flex-start;
     width: 100%;
+  }
+
+  .custom-file-upload {
+    width: 95%;
   }
 }
 </style>

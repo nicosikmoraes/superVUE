@@ -17,4 +17,11 @@ if (route.path === '/') {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.container_landing {
+  flex: 1;
+  overflow: auto;
+  width: 100%;
+  margin-top: 70px;
+}
+</style>

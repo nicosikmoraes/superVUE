@@ -28,19 +28,7 @@ const router = useRouter()
 * {
   box-sizing: border-box;
   margin: 0;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -68,5 +56,12 @@ const router = useRouter()
   position: fixed;
   bottom: 0;
   width: 100%;
+}
+
+/* Estilos do Router View */
+.main_component {
+  flex: 1;
+  width: 100%;
+  overflow: auto;
 }
 </style>

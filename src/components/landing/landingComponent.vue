@@ -1,29 +1,35 @@
 <template>
-  <div class="test" v-if="userStore.userMe.token">
-    {{ userStore.userMe.name }}
-    {{ userStore.userMe.email }}
-    {{ userStore.userMe.id }}
-    {{ userStore.userMe.imagem }}
-    {{ userStore.userMe.role }}
-    {{ userStore.userMe.token }}
-  </div>
+  <div class="landing_container">
+    <Banner />
 
-  <button @click="alertStore.ballonQuitAlert">Test</button>
+    <div class="body">
+      <Filter />
+      <Products />
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { useUserStore } from '@/stores/userStore'
 import { useAlertStore } from '@/stores/alertasStore'
+import Banner from './banner.vue'
+import Filter from './filter.vue'
+import Products from './products.vue'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
 </script>
 
 <style scoped>
-.test {
+.landing_container {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
+}
+
+.body {
+  display: flex;
+  flex: 1;
 }
 </style>
