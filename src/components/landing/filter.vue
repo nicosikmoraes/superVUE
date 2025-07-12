@@ -2,10 +2,12 @@
     <div class="filter_container">
         <h1>Filtros</h1>
 
+        
         <div class="filter_category">
             <h2>Categorias</h2>
 
-        <div class="checkbox_group">
+            <Spinner v-if="loading" />
+        <div class="checkbox_group" v-else>
             <label 
               v-for="category in categories" 
               :key="category.id" 
@@ -31,17 +33,24 @@
 import { useAdminStore } from '@/stores/adminStore';
 import { useLandingStore } from '@/stores/landingStore';
 import { onMounted, ref } from 'vue';
+import Spinner from '../form/spinner.vue';
 
 const landingStore = useLandingStore()
 const adminStore = useAdminStore()
 const categories = ref([])
+const loading = ref(false)
 
 onMounted(() => {
     getCategories()
 })
 
 async function getCategories() {
-    categories.value = await adminStore.getCategories()
+    loading.value = true
+     try {
+      categories.value = await adminStore.getCategories()
+     } finally {
+      loading.value = false
+     }
 }
 
 async function handleCheckboxChange(id, name) {

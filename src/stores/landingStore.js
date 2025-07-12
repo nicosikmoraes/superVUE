@@ -7,6 +7,6 @@ export const useLandingStore = defineStore('landing', () => {
 
   // Retornando
   return {
-    filtersName,
+    filtersName
   }
 })

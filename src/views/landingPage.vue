@@ -8,13 +8,20 @@
 import { useRoute } from 'vue-router'
 import { useNavStore } from '@/stores/navbarStore'
 import LandingComponent from '@/components/landing/landingComponent.vue'
+import { useLandingStore } from '@/stores/landingStore'
+import { onMounted } from 'vue'
 
 const route = useRoute()
 const navStore = useNavStore()
+const landingStore = useLandingStore()
 
 if (route.path === '/') {
   navStore.ActiveNav()
 }
+
+onMounted(() => {
+  landingStore.filtersName = []
+})
 </script>
 
 <style scoped>
