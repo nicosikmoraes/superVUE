@@ -3,13 +3,18 @@ import { defineStore } from 'pinia'
 import { useUserStore } from './userStore'
 import axios from 'axios'
 import { useAlertStore } from './alertasStore'
+import { useRoute } from 'vue-router'
+import { useLandingStore } from './landingStore'
 
 export const useAdminStore = defineStore('admin', () => {
   // Variáveis
   const products = ref([])
+  const categories = ref([])
+  const route = useRoute()
 
   //Stores
   const userStore = useUserStore()
+  const landingStore = useLandingStore()
 
   //Mostrar Componentes
   const showCategories = ref(true)
@@ -99,7 +104,13 @@ export const useAdminStore = defineStore('admin', () => {
         },
       })
 
-      return res.data
+      const cats = res.data
+      categories.value = cats.map((cat) => ({
+        ...cat,
+        selected: false, // Inicializa o estado selecionado como falso
+      }))
+
+      return categories.value
     } catch (err) {
       console.log('Erro no getCategories:', err.response?.data || err.message)
       return null
@@ -263,6 +274,12 @@ export const useAdminStore = defineStore('admin', () => {
       }))
 
       products.value = hoverProducts
+
+      // Se a rota for a landing page, aplica os filtros
+      if (route.path === '/') {
+        applyFilters()
+      }
+
       return products.value
     } catch (err) {
       console.log('Erro no getAllProducts:', err.response?.data || err.message)
@@ -305,6 +322,21 @@ export const useAdminStore = defineStore('admin', () => {
     }
   }
 
+  //Funçao que filtra os produtos por categoria (podendo ter vários filtros ativos)
+  function applyFilters() {
+    const selectedCategories = categories.value.filter((c) => c.selected).map((c) => c.id) // Vejo as categorias que eu tenho selecionado
+
+    if (selectedCategories.length === 0) {
+      // Nenhum filtro marcado → mostra tudo
+      landingStore.landingProducts = products.value
+    } else {
+      // Filtros marcados → filtra produtos por categoria
+      landingStore.landingProducts = products.value.filter(
+        (product) => selectedCategories.includes(product.category_id), // ou category_id
+      )
+    }
+  }
+
   // Retornando
   return {
     deleteProduct,
@@ -325,5 +357,6 @@ export const useAdminStore = defineStore('admin', () => {
     products,
     loadingProducts,
     idProductSelected,
+    categories,
   }
 })

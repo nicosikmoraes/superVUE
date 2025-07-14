@@ -2,7 +2,7 @@
   <div class="landing_container">
     <Banner />
 
-    <div class="body">
+    <div class="body_landing">
       <Filter />
       <Products />
     </div>
@@ -15,9 +15,6 @@ import { useAlertStore } from '@/stores/alertasStore'
 import Banner from './banner.vue'
 import Filter from './filter.vue'
 import Products from './products.vue'
-
-const userStore = useUserStore()
-const alertStore = useAlertStore()
 </script>
 
 <style scoped>
@@ -28,8 +25,9 @@ const alertStore = useAlertStore()
   min-height: 100vh;
 }
 
-.body {
+.body_landing {
   display: flex;
   flex: 1;
+  margin-bottom: 100px;
 }
 </style>

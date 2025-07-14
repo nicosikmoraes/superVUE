@@ -1,6 +1,7 @@
 import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { useCartStore } from './cartStore'
 
 export const useUserStore = defineStore(
   'user',
@@ -19,6 +20,7 @@ export const useUserStore = defineStore(
 
     const admin = ref(false)
     const moderator = ref(false)
+    const cartStore = useCartStore()
 
     //Caminho padrão da API
     const api = axios.create({
@@ -45,7 +47,9 @@ export const useUserStore = defineStore(
           },
         )
 
-        login(user)
+        await login(user)
+
+        await cartStore.createCart()
 
         return res.data
       } catch (err) {
@@ -82,7 +86,7 @@ export const useUserStore = defineStore(
           moderator.value = false
         }
 
-        getUserMe()
+        await getUserMe()
 
         console.log('Resposta do login:', response.data)
         return response.data

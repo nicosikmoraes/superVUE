@@ -172,7 +172,12 @@ h1 {
   }
 
   .btn {
-    width: 100%;
+    width: 210px;
+  }
+
+  .product {
+    width: 210px;
+    height: 210px;
   }
 }
 

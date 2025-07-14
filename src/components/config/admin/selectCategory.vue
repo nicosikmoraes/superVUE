@@ -65,7 +65,7 @@ async function getSelected() {
 <style scoped>
 h2 {
   color: #b5d985;
-  font-size: 17px;
+  font-size: clamp(16px, 16px, 19px);
   font-weight: 700;
   margin-left: 2px;
 }

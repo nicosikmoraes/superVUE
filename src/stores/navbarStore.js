@@ -7,6 +7,7 @@ export const useNavStore = defineStore('navbar', () => {
   const showNav = ref(true) //Variável para mostrar a navbar
   const showModal = ref(false) //Variável para mostrar a modal
   const route = useRoute()
+  const offCanvas = ref(false) // Variável para controlar o offcanvas
 
   // Garantindo que a navbar não seja exibida em páginas não desejadas
   if (route.path === '/') {
@@ -35,6 +36,7 @@ export const useNavStore = defineStore('navbar', () => {
   return {
     showNav,
     showModal,
+    offCanvas,
     ActiveNav,
     InactiveNav,
   }
