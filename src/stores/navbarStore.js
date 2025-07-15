@@ -7,7 +7,7 @@ export const useNavStore = defineStore('navbar', () => {
   const showNav = ref(true) //Variável para mostrar a navbar
   const showModal = ref(false) //Variável para mostrar a modal
   const route = useRoute()
-  const offCanvas = ref(false) // Variável para controlar o offcanvas
+  const offCanvas = ref(false) // Variável para controlar o offcanvas dos filtros
 
   // Garantindo que a navbar não seja exibida em páginas não desejadas
   if (route.path === '/') {

@@ -12,7 +12,10 @@
 
     <ModalConfig v-show="navStore.showModal" />
 
-    <div class="cart_btn">
+    <div
+      class="cart_btn"
+      @click="((cartStore.canvasCart = !cartStore.canvasCart), cartStore.getCartItems())"
+    >
       <img id="img_cart" src="/src/assets/images/cart-plus.png" />
     </div>
   </div>
@@ -22,13 +25,14 @@
 import { useRouter } from 'vue-router'
 import { useNavStore } from '@/stores/navbarStore'
 import { useUserStore } from '@/stores/userStore'
-import { useAlertStore } from '@/stores/alertasStore'
 import ModalConfig from '@/components/modal/modalConfig.vue'
+import { useCartStore } from '@/stores/cartStore'
 
 // Variáveis
 const router = useRouter()
 const navStore = useNavStore()
 const userStore = useUserStore()
+const cartStore = useCartStore()
 
 // Funções
 function goToLogin() {

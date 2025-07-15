@@ -16,14 +16,12 @@
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { useAlertStore } from '@/stores/alertasStore'
-import { useConfigStore } from '@/stores/configStore'
 import UserSideMenu from './user/userSideMenu.vue'
 import AdminSideMenu from './admin/adminSideMenu.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
 const alertStore = useAlertStore()
-const configStore = useConfigStore()
 
 function quit() {
   router.push('/')

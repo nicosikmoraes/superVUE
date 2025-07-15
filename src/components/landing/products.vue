@@ -18,7 +18,13 @@
 
         <h1 id="product_price">R$ {{ product.price }}</h1>
 
-        <button class="product_btn">Comprar</button>
+        <button
+          class="product_btn"
+          @click="addItemToCart(product.id, product.price)"
+          :disabled="loadigndBtn"
+        >
+          Comprar
+        </button>
       </div>
     </div>
   </div>
@@ -30,10 +36,13 @@ import { useLandingStore } from '@/stores/landingStore'
 import { onMounted, ref } from 'vue'
 import Spinner from '../form/spinner.vue'
 import { useCartStore } from '@/stores/cartStore'
+import { useAlertStore } from '@/stores/alertasStore'
 
 const landingStore = useLandingStore()
 const adminStore = useAdminStore()
 const cartStore = useCartStore()
+const loadigndBtn = ref(false)
+const alertStore = useAlertStore()
 
 onMounted(() => {
   getAllProducts()
@@ -45,6 +54,17 @@ async function getAllProducts() {
     await adminStore.getAllProducts()
   } finally {
     landingStore.loadingProducts = false
+  }
+}
+
+async function addItemToCart(productId, price) {
+  loadigndBtn.value = true
+  try {
+    await cartStore.addItemToCart(productId, price)
+    await cartStore.getCartItems()
+    alertStore.successAlert('Item adicionado ao carrinho!')
+  } finally {
+    loadigndBtn.value = false
   }
 }
 </script>
