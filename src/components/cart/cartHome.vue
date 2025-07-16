@@ -46,7 +46,9 @@
         Total: {{ formatPrice(Number(cartStore.cartItems.total_amount)) }}
       </h1>
 
-      <button class="final_btn" type="button">Finalizar Compra</button>
+      <button class="final_btn" type="button" @click="cartStore.showPage = 1">
+        Finalizar Compra
+      </button>
     </div>
   </div>
 </template>

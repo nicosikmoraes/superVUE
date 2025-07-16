@@ -1,7 +1,10 @@
 <template>
   <div class="container_cart">
     <div class="offcanvas" :class="{ active: cartStore.canvasCart }">
-      <CartHome />
+      <CartHome v-if="cartStore.showPage === 0" />
+
+      <AddressSelect v-if="cartStore.showPage === 1" />
+      <AddressForm v-if="cartStore.showPage === 2" />
     </div>
 
     <!-- Backdrop -->
@@ -13,6 +16,8 @@
 import { useCartStore } from '@/stores/cartStore'
 import CartHome from './cartHome.vue'
 import { watch } from 'vue'
+import AddressSelect from './address/addressSelect.vue'
+import AddressForm from './address/addressForm.vue'
 
 const cartStore = useCartStore()
 

@@ -10,6 +10,9 @@ export const useCartStore = defineStore('cart', () => {
   const canvasCart = ref(false)
   const cartItems = ref([])
 
+  // 0 = Tela do carrinho, 1 = Opção de endereços, 2 = adicionar endereço se preciso, 3 = Tela de pagamento
+  const showPage = ref(0)
+
   //Caminho padrão da API
   const api = axios.create({
     baseURL: 'http://35.196.79.227:8000',
@@ -156,6 +159,7 @@ export const useCartStore = defineStore('cart', () => {
   return {
     canvasCart,
     cartItems,
+    showPage,
     createCart,
     addItemToCart,
     getCartItems,
