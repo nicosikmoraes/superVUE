@@ -9,7 +9,7 @@
 
     <Spinner v-if="landingStore.loadingProducts === true" />
     <div class="show_products" v-else>
-      <div class="product" v-for="product in landingStore.landingProducts" :key="product.id">
+      <div class="product" v-for="product in landingStore.paginatedItems" :key="product.id">
         <div
           class="product_image"
           :style="{ backgroundImage: `url(http://35.196.79.227:8000${product.image_path})` }"
@@ -26,6 +26,11 @@
           Comprar
         </button>
       </div>
+    </div>
+
+    <div class="footer">
+      <span class="back_btn" @click="landingStore.prevPage()">&#8592;</span>
+      <span class="back_btn" @click="landingStore.nextPage()">&rarr;</span>
     </div>
   </div>
 </template>
@@ -164,6 +169,27 @@ span {
   opacity: 1;
   transform: scale(1.02);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back_btn {
+  cursor: pointer;
+  color: #b5d985;
+  font-size: 32px;
+  opacity: 0.9;
+  font-weight: 950;
+  transition: transform 0.3s ease;
+}
+
+.back_btn:hover {
+  opacity: 1;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0px;
+  gap: 5px;
 }
 
 @media (max-width: 700px) {

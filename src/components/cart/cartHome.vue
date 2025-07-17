@@ -50,7 +50,7 @@
         class="final_btn"
         type="button"
         @click="cartStore.showPage = 1"
-        :disabled="!cartStore.cartItems.items.length"
+        :disabled="!cartStore.cartItems.items?.length || null"
       >
         Finalizar Compra
       </button>
