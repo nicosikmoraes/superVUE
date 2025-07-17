@@ -155,11 +155,26 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
+  async function clearCart() {
+    try {
+      const response = await api.delete('/cart/clear', {
+        headers: {
+          accept: '*/*',
+          Authorization: `Bearer ${userStore.userMe.token}`,
+        },
+      })
+    } catch (err) {
+      console.error('Erro ao limpar o carrinho:', err.response?.data || err.message)
+      return null
+    }
+  }
+
   // Retornando
   return {
     canvasCart,
     cartItems,
     showPage,
+    clearCart,
     createCart,
     addItemToCart,
     getCartItems,

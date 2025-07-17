@@ -5,6 +5,7 @@
 
       <AddressSelect v-if="cartStore.showPage === 1" />
       <AddressForm v-if="cartStore.showPage === 2" />
+      <Payment v-if="cartStore.showPage === 3" />
     </div>
 
     <!-- Backdrop -->
@@ -18,6 +19,7 @@ import CartHome from './cartHome.vue'
 import { watch } from 'vue'
 import AddressSelect from './address/addressSelect.vue'
 import AddressForm from './address/addressForm.vue'
+import Payment from './payment.vue'
 
 const cartStore = useCartStore()
 

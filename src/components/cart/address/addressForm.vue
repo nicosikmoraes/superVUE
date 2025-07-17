@@ -168,7 +168,7 @@ async function addAddress() {
       return
     }
 
-    console.log('Dados Válidos')
+    await addressStore.createAddress()
     cartStore.showPage = 1
   } finally {
     loading.value = false

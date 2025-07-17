@@ -1,9 +1,12 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { useUserStore } from './userStore'
 
 export const useAddressStore = defineStore('address', () => {
   // Variáveis
+  const userStore = useUserStore()
+
   const countries = ref([])
   const selectedCountry = ref('BR')
 
@@ -18,6 +21,9 @@ export const useAddressStore = defineStore('address', () => {
   const number = ref(null)
 
   const cep = ref('')
+
+  const addresses = ref([])
+  const selectedAddress = ref([])
   // Funções
 
   async function getCountries() {
@@ -62,6 +68,75 @@ export const useAddressStore = defineStore('address', () => {
       return null
     }
   }
+
+  async function createAddress() {
+    try {
+      const response = await axios.post(
+        'http://35.196.79.227:8000/addresses/',
+        {
+          street: street.value,
+          number: number.value,
+          zip: cep.value,
+          city: selectedCity.value.nome,
+          state: selectedState.value,
+          country: selectedCountry.value,
+        },
+        {
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userStore.userMe.token}`,
+          },
+        },
+      )
+
+      return response.data
+    } catch (err) {
+      console.error('Erro ao criar endereço:', err.response?.data || err.message)
+      return null
+    }
+  }
+
+  async function getAddresses() {
+    try {
+      const response = await axios.get('http://35.196.79.227:8000/addresses/', {
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${userStore.userMe.token}`,
+        },
+      })
+
+      // Adiciona a propriedade 'checked' (inicialmente false) a cada endereço
+      addresses.value = response.data.map((address) => ({
+        ...address,
+        checked: false,
+      }))
+
+      return addresses.value
+    } catch (err) {
+      console.error('Erro ao obter endereços:', err.response?.data || err.message)
+      return null
+    }
+  }
+
+  async function deleteAddress(id) {
+    try {
+      const response = await axios.delete(`http://35.196.79.227:8000/addresses/${id}`, {
+        headers: {
+          accept: '*/*',
+          Authorization: `Bearer ${userStore.userMe.token}`,
+        },
+      })
+
+      console.log('Endereço deletado com sucesso:', response.data)
+      await getAddresses()
+      return response.data
+    } catch (err) {
+      console.error('Erro ao deletar endereço:', err.response?.data || err.message)
+      return null
+    }
+  }
+
   // Retornando
   return {
     countries,
@@ -74,8 +149,13 @@ export const useAddressStore = defineStore('address', () => {
     street,
     number,
     cep,
+    addresses,
+    selectedAddress,
     getCitiesByState,
     getCountries,
     getBrazilianStates,
+    createAddress,
+    getAddresses,
+    deleteAddress,
   }
 })
