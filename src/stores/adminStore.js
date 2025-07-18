@@ -28,6 +28,8 @@ export const useAdminStore = defineStore('admin', () => {
   //Loading
   const loadingProducts = ref(false)
 
+  const filtered = ref([])
+
   //Caminho padrão da API
   const api = axios.create({
     baseURL: 'http://35.196.79.227:8000',
@@ -96,7 +98,7 @@ export const useAdminStore = defineStore('admin', () => {
 
   async function getCategories() {
     try {
-      const res = await api.get(`/categories/user/${userStore.userMe.id}`, {
+      const res = await api.get(`/categories/user/144`, {
         headers: {
           accept: 'application/json',
           'Content-Type': 'application/json',
@@ -271,9 +273,16 @@ export const useAdminStore = defineStore('admin', () => {
       const hoverProducts = res.data.map((product) => ({
         ...product,
         hover: false,
+        loading: false,
       }))
 
-      products.value = hoverProducts
+      // Ordena por nome (ordem alfabética, insensível a acentos e maiúsculas)
+      const sortedProducts = hoverProducts.sort((a, b) =>
+        a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' })
+       );
+
+
+      products.value = sortedProducts
 
       // Se a rota for a landing page, aplica os filtros
       if (route.path === '/') {
@@ -328,13 +337,17 @@ export const useAdminStore = defineStore('admin', () => {
 
     if (selectedCategories.length === 0) {
       // Nenhum filtro marcado → mostra tudo
-      landingStore.landingProducts = products.value
+      filtered.value = products.value
     } else {
       // Filtros marcados → filtra produtos por categoria
-      landingStore.landingProducts = products.value.filter(
+      filtered.value = products.value.filter(
         (product) => selectedCategories.includes(product.category_id), // ou category_id
       )
     }
+
+      landingStore.landingProducts = [...filtered.value].sort((a, b) =>
+    a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' }),
+  );
   }
 
   // Retornando

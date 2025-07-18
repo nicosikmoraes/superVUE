@@ -28,6 +28,5 @@ import CartCanvas from '../cart/cartCanvas.vue'
 .body_landing {
   display: flex;
   flex: 1;
-  margin-bottom: 100px;
 }
 </style>

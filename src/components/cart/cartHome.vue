@@ -63,13 +63,17 @@ import { useCartStore } from '@/stores/cartStore'
 import { onMounted, ref } from 'vue'
 import Spinner from '../form/spinner.vue'
 import { useAlertStore } from '@/stores/alertasStore'
+import { useAdminStore } from '@/stores/adminStore'
 
+const adminStore = useAdminStore()
 const cartStore = useCartStore()
 const alertStore = useAlertStore()
 const loading = ref(false)
 const loadingCep = ref(false)
 const cep = ref('')
 const cepText = ref('')
+
+const productSelected = ref(null)
 
 onMounted(() => {
   getCartItems()
@@ -88,9 +92,21 @@ async function getCartItems() {
 async function removeItem(id, quantity) {
   loading.value = true
   try {
-    alertStore.successAlert('Item removido do carrinho!')
-    await cartStore.removeItemFromCart(id, quantity)
-    await getCartItems()
+    
+    // Adicionando um de stock para o produto, filtrando para saber o valor do stock
+    productSelected.value = adminStore.products.find(product => product.id === id);
+   
+    //Arrumando variáveis que serão passadas para o backend
+    const stock = productSelected.value.stock = productSelected.value.stock + 1
+    adminStore.idProductSelected = id
+    
+    await adminStore.updateStock(stock) // Chama a função para atualiza o stock no backend
+    await adminStore.getAllProducts() // Atualizo os produtos
+
+    // De fato removo o item da carrinho
+    alertStore.successAlert('Item removido do carrinho!') // Mensagem para o cliente
+    await cartStore.removeItemFromCart(id, quantity) // Atualiza o backend
+    await getCartItems() //Atualiza o carrinho
   } finally {
     loading.value = false
   }

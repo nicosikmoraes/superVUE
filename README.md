@@ -10,8 +10,6 @@
 
 - Criar componentes para adicionar discontos e cupons, e fazer eles funcionarem na aplicação
 
-- Fazer paginação dos produtos na landing page
-
 - Ir arrumando os bugs que aparecerem
 
 # Etapas:
@@ -23,3 +21,15 @@
 - Subir no docker usando Dockerfile e Docker Compose.
 
 - Tentar subir na aws.
+
+
+-> Paginação OK
+
+-> Stock OK (Reativo de acordo com as compras)
+
+-> Pagamento via PIX OK (AbacatePay)
+
+-> Dados são buscados pela conta do admin OK
+
+-> Lista os produtos em ordem alfabeitca, agora quando clico em um item ele não fica mudando de posição OK
+

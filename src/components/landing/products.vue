@@ -18,12 +18,21 @@
 
         <h1 id="product_price">R$ {{ product.price }}</h1>
 
-        <button
+        <button v-if="product.stock > 1"
           class="product_btn"
-          @click="addItemToCart(product.id, product.price)"
-          :disabled="loadigndBtn"
+          @click="addItemToCart(product.id, product.price, product.stock)"
+          :disabled="product.loading"
         >
-          Comprar
+          <Spinner v-if="product.loading" />
+          <p v-else>Comprar</p>
+        </button>
+
+        <button v-else
+          class="product_btn"
+          id="disabled_btn"
+          :disabled="product.stock < 1"
+        >
+          Indisponivel
         </button>
       </div>
     </div>
@@ -62,14 +71,34 @@ async function getAllProducts() {
   }
 }
 
-async function addItemToCart(productId, price) {
-  loadigndBtn.value = true
+async function addItemToCart(productId, price, stock) {
+  //Loading do produto
+  const loadProduct = adminStore.products.find(p => p.id === productId);
+  loadProduct.loading = true;
+
   try {
+    console.log(stock)
+
+    if(stock < 1){
+        alertStore.errorAlert('Item Indisponivel')
+        return
+    }
+
+    // Estou diminuindo o stock do produto que vai para o carrinho
+    adminStore.idProductSelected = productId
+    stock--
+    await adminStore.updateStock(stock)
+
+    // Adiciono o produto no carrinho
     await cartStore.addItemToCart(productId, price)
-    await cartStore.getCartItems()
+    await cartStore.getCartItems() //Pego os itens do carrinho (atualiza o cart)
+
+    // Atualizo meus produtos para atualizar o stock deles
+    await adminStore.getAllProducts()
     alertStore.successAlert('Item adicionado ao carrinho!')
   } finally {
-    loadigndBtn.value = false
+      loadProduct.loading = false;
+  
   }
 }
 </script>
@@ -109,7 +138,8 @@ span {
   flex-direction: column;
   padding: 30px 40px;
   gap: 20px;
-  max-width: 70%;
+  max-width: 100%;
+  margin-bottom: 80px;
 }
 
 .show_products {
@@ -171,6 +201,11 @@ span {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
+#disabled_btn {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .back_btn {
   cursor: pointer;
   color: #b5d985;
@@ -188,8 +223,7 @@ span {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0px;
-  gap: 5px;
+  gap: 20px;
 }
 
 @media (max-width: 700px) {

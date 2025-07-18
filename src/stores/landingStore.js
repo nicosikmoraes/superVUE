@@ -7,7 +7,7 @@ export const useLandingStore = defineStore('landing', () => {
   //const landingProducts = ref([])
   const landingProducts = ref(Array.from({ length: 50 }, (_, i) => `Item ${i + 1}`))
   const currentPage = ref(1)
-  const itemsPerPage = ref(9)
+  const itemsPerPage = ref(8)
 
   const loadingProducts = ref(false)
 
