@@ -18,7 +18,8 @@
 
         <h1 id="product_price">R$ {{ product.price }}</h1>
 
-        <button v-if="product.stock > 1"
+        <button
+          v-if="product.stock > 1"
           class="product_btn"
           @click="addItemToCart(product.id, product.price, product.stock)"
           :disabled="product.loading"
@@ -27,11 +28,7 @@
           <p v-else>Comprar</p>
         </button>
 
-        <button v-else
-          class="product_btn"
-          id="disabled_btn"
-          :disabled="product.stock < 1"
-        >
+        <button v-else class="product_btn" id="disabled_btn" :disabled="product.stock < 1">
           Indisponivel
         </button>
       </div>
@@ -73,15 +70,15 @@ async function getAllProducts() {
 
 async function addItemToCart(productId, price, stock) {
   //Loading do produto
-  const loadProduct = adminStore.products.find(p => p.id === productId);
-  loadProduct.loading = true;
+  const loadProduct = adminStore.products.find((p) => p.id === productId)
+  loadProduct.loading = true
 
   try {
     console.log(stock)
 
-    if(stock < 1){
-        alertStore.errorAlert('Item Indisponivel')
-        return
+    if (stock < 1) {
+      alertStore.errorAlert('Item Indisponivel')
+      return
     }
 
     // Estou diminuindo o stock do produto que vai para o carrinho
@@ -97,8 +94,7 @@ async function addItemToCart(productId, price, stock) {
     await adminStore.getAllProducts()
     alertStore.successAlert('Item adicionado ao carrinho!')
   } finally {
-      loadProduct.loading = false;
-  
+    loadProduct.loading = false
   }
 }
 </script>

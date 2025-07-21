@@ -24,10 +24,12 @@ import { useCartStore } from '@/stores/cartStore'
 import { onMounted, ref } from 'vue'
 import Spinner from '../form/spinner.vue'
 import { useAlertStore } from '@/stores/alertasStore'
+import { useOrdersStore } from '@/stores/orders'
 
 const alertStore = useAlertStore()
 const payStore = usePayStore()
 const cartStore = useCartStore()
+const orderStore = useOrdersStore()
 const loading = ref(false)
 
 async function simulatePayment() {
@@ -40,6 +42,7 @@ async function simulatePayment() {
     cartStore.canvasCart = false
     await cartStore.clearCart()
     await cartStore.getCartItems()
+    await orderStore.updateStatus(orderStore.lastOrderId, 'PROCESSING')
     payStore.payData = []
     payStore.qrCode = ''
   } finally {

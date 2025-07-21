@@ -6,7 +6,8 @@
     <Moderators v-if="configStore.whichMenu === 2" />
     <Categories v-if="configStore.whichMenu === 3" />
     <Products v-if="configStore.whichMenu === 4" />
-    <Delivery v-if="configStore.whichMenu === 5" />
+    <Requests v-if="configStore.whichMenu === 5" />
+    <MyRequests v-if="configStore.whichMenu === 6" />
   </div>
 </template>
 
@@ -17,7 +18,8 @@ import UserSecurity from './user/userSecurity.vue'
 import Moderators from './admin/moderators.vue'
 import Categories from './admin/categories/categories.vue'
 import Products from './admin/products/products.vue'
-import Delivery from './admin/delivery.vue'
+import Requests from './admin/requests.vue'
+import MyRequests from './user/myRequests.vue'
 
 const configStore = useConfigStore()
 </script>

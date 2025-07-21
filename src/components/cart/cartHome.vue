@@ -5,7 +5,13 @@
       <h1 id="title_text">Carrinho</h1>
     </div>
 
-    <Spinner v-if="loading" />
+    <h2
+      id="cart_no_items"
+      v-if="cartStore.cartItems.items === undefined || !cartStore.cartItems.items.length"
+    >
+      Nenhum item no carrinho
+    </h2>
+    <Spinner v-else-if="loading" />
     <div class="cart_items" v-else>
       <div class="item" v-for="item in cartStore.cartItems.items" :key="item.id">
         <div
@@ -92,14 +98,13 @@ async function getCartItems() {
 async function removeItem(id, quantity) {
   loading.value = true
   try {
-    
     // Adicionando um de stock para o produto, filtrando para saber o valor do stock
-    productSelected.value = adminStore.products.find(product => product.id === id);
-   
+    productSelected.value = adminStore.products.find((product) => product.id === id)
+
     //Arrumando variáveis que serão passadas para o backend
-    const stock = productSelected.value.stock = productSelected.value.stock + 1
+    const stock = (productSelected.value.stock = productSelected.value.stock + 1)
     adminStore.idProductSelected = id
-    
+
     await adminStore.updateStock(stock) // Chama a função para atualiza o stock no backend
     await adminStore.getAllProducts() // Atualizo os produtos
 
@@ -215,6 +220,13 @@ h2 {
   color: #4b4b4b;
   font-size: 16px;
   font-weight: 600;
+}
+
+#cart_no_items {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 10px;
 }
 
 h1 {

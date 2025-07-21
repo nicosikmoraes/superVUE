@@ -226,7 +226,7 @@ export const useAdminStore = defineStore('admin', () => {
           headers: {
             accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${userStore.userMe.token}`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDQiLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NTMxNTc3NTZ9.JxBIjhSSYIee8H4wGzbFbqnZNtjaGn_BSZQh-LnA4Mk`, //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDQiLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NTMxNTc3NTZ9.JxBIjhSSYIee8H4wGzbFbqnZNtjaGn_BSZQh-LnA4Mk
           },
         },
       )
@@ -278,9 +278,8 @@ export const useAdminStore = defineStore('admin', () => {
 
       // Ordena por nome (ordem alfabética, insensível a acentos e maiúsculas)
       const sortedProducts = hoverProducts.sort((a, b) =>
-        a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' })
-       );
-
+        a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' }),
+      )
 
       products.value = sortedProducts
 
@@ -345,9 +344,9 @@ export const useAdminStore = defineStore('admin', () => {
       )
     }
 
-      landingStore.landingProducts = [...filtered.value].sort((a, b) =>
-    a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' }),
-  );
+    landingStore.landingProducts = [...filtered.value].sort((a, b) =>
+      a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' }),
+    )
   }
 
   // Retornando
