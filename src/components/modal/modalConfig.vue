@@ -37,11 +37,13 @@ function quit() {
 
 function goToConfig() {
   navStore.showModal = false
+  console.log(navStore.showNav)
   router.push('/config')
 }
 
 function goToMenu() {
   navStore.showModal = false
+  console.log(navStore.showNav)
   router.push('/')
 }
 </script>

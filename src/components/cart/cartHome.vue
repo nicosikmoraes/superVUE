@@ -5,12 +5,10 @@
       <h1 id="title_text">Carrinho</h1>
     </div>
 
-    <h2
-      id="cart_no_items"
-      v-if="cartStore.cartItems.items === undefined || !cartStore.cartItems.items.length"
-    >
+    <h2 id="cart_no_items" v-if="!cartStore.cartItems || cartStore.cartItems.length === 0">
       Nenhum item no carrinho
     </h2>
+
     <Spinner v-else-if="loading" />
     <div class="cart_items" v-else>
       <div class="item" v-for="item in cartStore.cartItems.items" :key="item.id">
@@ -49,14 +47,14 @@
       <p>{{ cepText }}</p>
 
       <h1 class="total_price">
-        Total: {{ formatPrice(Number(cartStore.cartItems.total_amount)) }}
+        Total: {{ formatPrice(Number(cartStore.cartItems?.total_amount || 0)) }}
       </h1>
 
       <button
         class="final_btn"
         type="button"
         @click="cartStore.showPage = 1"
-        :disabled="!cartStore.cartItems.items?.length || null"
+        :disabled="!cartStore.cartItems?.items?.length"
       >
         Finalizar Compra
       </button>

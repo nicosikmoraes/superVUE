@@ -226,7 +226,7 @@ export const useAdminStore = defineStore('admin', () => {
           headers: {
             accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDQiLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NTMxNTc3NTZ9.JxBIjhSSYIee8H4wGzbFbqnZNtjaGn_BSZQh-LnA4Mk`, //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDQiLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NTMxNTc3NTZ9.JxBIjhSSYIee8H4wGzbFbqnZNtjaGn_BSZQh-LnA4Mk
+            Authorization: `Bearer ${userStore.userMe.token}`, //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDQiLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NTMxNTc3NTZ9.JxBIjhSSYIee8H4wGzbFbqnZNtjaGn_BSZQh-LnA4Mk
           },
         },
       )

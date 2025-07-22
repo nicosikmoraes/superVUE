@@ -3,6 +3,11 @@
     <h1>Meus Pedidos</h1>
 
     <Spinner v-if="loading" />
+
+    <h2 v-else-if="ordersStore.myOrders.length === 0 || !ordersStore.myOrders" class="no_requests">
+      Você ainda não fez nenhum pedido!
+    </h2>
+
     <div v-else class="all_orders">
       <div class="order" v-for="(order, index) in ordersStore.myOrders" :key="index">
         <div class="top_info">
@@ -12,26 +17,45 @@
             <h2 id="order_id">Pedido: #{{ order.id }}</h2>
             <p>{{ formatDate(order.order_date) }}</p>
           </div>
+
+          <div :class="order.status === 'COMPLETED' ? 'completed_message' : 'uncompleted_message'">
+            <h3 v-if="order.status === 'COMPLETED'">Entregue!</h3>
+            <h3 v-else>Aguarde..</h3>
+          </div>
         </div>
 
         <div class="bottom_info">
-          <div class="complete">
-            <div class="complete_option" :class="statusClass(order.status)"></div>
-            <h3>Pedido Realizado</h3>
+          <div class="pending">
+            <div class="complete">
+              <!-- Column -->
+              <div class="complete_option" :class="statusClassOne(order.status)"></div>
+              <!-- Bolinha -->
+              <h3>Pedido Realizado</h3>
+            </div>
+
+            <Dots class="dots" v-if="order.status === 'PENDING'" />
           </div>
 
-          <div class="complete">
-            <div class="complete_option" :class="statusClass(order.status)"></div>
-            <h3 id="processing_text">Pagamento Aprovado</h3>
+          <div class="pending">
+            <div class="complete">
+              <div class="complete_option" :class="statusClassTwo(order.status)"></div>
+              <h3 id="processing_text">Pagamento Aprovado</h3>
+            </div>
+
+            <Dots class="dots_processing" v-if="order.status === 'PROCESSING'" />
           </div>
 
-          <div class="complete">
-            <div class="complete_option" :class="statusClass(order.status)"></div>
-            <h3>Saiu para Entrega</h3>
+          <div class="pending">
+            <div class="complete">
+              <div class="complete_option" :class="statusClassThree(order.status)"></div>
+              <h3>Saiu para Entrega</h3>
+            </div>
+
+            <Dots id="last_ball" class="dots" v-if="order.status === 'SHIPPED'" />
           </div>
 
-          <div class="complete">
-            <div class="complete_option" :class="statusClass(order.status)"></div>
+          <div class="complete" id="first_ball">
+            <div class="complete_option" :class="statusClassFour(order.status)"></div>
             <h3>Entregue</h3>
           </div>
         </div>
@@ -68,14 +92,59 @@ function formatDate(date) {
   return dayjs(date).format('DD/MM HH:mm')
 }
 
-const statusClass = (status) => {
+const statusClassOne = (status) => {
   switch (status) {
     case 'PENDING':
-      return 'status-pending'
+      return 'status-completed'
     case 'PROCESSING':
-      return 'status-processing'
+      return 'status-completed'
     case 'SHIPPED':
-      return 'status-shipped'
+      return 'status-completed'
+    case 'COMPLETED':
+      return 'status-completed'
+    default:
+      return 'status-default'
+  }
+}
+
+const statusClassTwo = (status) => {
+  switch (status) {
+    case 'PENDING':
+      return 'status-default'
+    case 'PROCESSING':
+      return 'status-completed'
+    case 'SHIPPED':
+      return 'status-completed'
+    case 'COMPLETED':
+      return 'status-completed'
+    default:
+      return 'status-default'
+  }
+}
+
+const statusClassThree = (status) => {
+  switch (status) {
+    case 'PENDING':
+      return 'status-default'
+    case 'PROCESSING':
+      return 'status-default'
+    case 'SHIPPED':
+      return 'status-completed'
+    case 'COMPLETED':
+      return 'status-completed'
+    default:
+      return 'status-default'
+  }
+}
+
+const statusClassFour = (status) => {
+  switch (status) {
+    case 'PENDING':
+      return 'status-default'
+    case 'PROCESSING':
+      return 'status-default'
+    case 'SHIPPED':
+      return 'status-default'
     case 'COMPLETED':
       return 'status-completed'
     default:
@@ -93,6 +162,7 @@ const statusClass = (status) => {
   gap: 20px;
   height: 55vh;
   overflow-y: auto;
+  overflow-x: auto;
 }
 
 /* Titulo */
@@ -100,6 +170,13 @@ h1 {
   font-size: clamp(17px, 20px, 24px);
   color: #b5d985;
   font-weight: 800;
+}
+
+.no_requests {
+  font-size: 15px;
+  color: #4b4b4b;
+  font-weight: 600;
+  opacity: 1;
 }
 
 /* Top Info */
@@ -155,30 +232,18 @@ h1 {
   gap: 20px;
 }
 
-.status-pending {
-  background-color: #d3d3d3;
-}
-
-.status-processing {
-  background-color: #87ceeb;
-}
-
-.status-shipped {
-  background-color: #fdd835;
-}
-
 .status-completed {
   background-color: #b5d985;
 }
 
 .status-default {
   background-color: #4b4b4b;
+  opacity: 0.85;
 }
 
 .complete_option {
   width: 18px;
   height: 18px;
-  opacity: 1;
   border-radius: 50%;
 }
 
@@ -206,12 +271,91 @@ hr {
   margin-top: 8px;
 }
 
+.pending {
+  position: relative;
+  background-color: transparent;
+}
+
+.dots {
+  position: absolute;
+  top: -5px;
+  left: 60px;
+}
+
+.dots_processing {
+  position: absolute;
+  top: -5px;
+  left: 75px;
+}
+
+.completed_message h3 {
+  font-size: 11px;
+  color: #697c51;
+  font-weight: 800;
+}
+
+.completed_message {
+  background-color: #b5d985;
+  padding: 3px 7px;
+  border-radius: 10px;
+  align-self: flex-start;
+  margin-top: 8px;
+  margin-left: 5px;
+}
+
+.uncompleted_message {
+  background-color: #ccc;
+  padding: 3px 7px;
+  border-radius: 10px;
+  align-self: flex-start;
+  margin-top: 8px;
+  margin-left: 5px;
+  opacity: 0.9;
+}
+
+.uncompleted_message h3 {
+  font-size: 11px;
+  color: #4b4b4b;
+  font-weight: 800;
+}
+
 /* Responsividade */
 @media (max-width: 600px) {
   .my_requests_container {
     padding: 20px 20px;
     flex-direction: column;
     gap: 15px;
+  }
+
+  .bottom_info {
+    gap: 5px;
+    margin-left: 0px;
+  }
+
+  #first_ball {
+    display: none;
+  }
+
+  .pending {
+    position: relative;
+  }
+
+  .dots {
+    position: absolute;
+    left: 58px;
+  }
+
+  .dots_processing {
+    position: absolute;
+    left: 67px;
+  }
+
+  #last_ball {
+    display: none;
+  }
+
+  #order_id {
+    font-size: 14px;
   }
 }
 </style>

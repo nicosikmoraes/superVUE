@@ -6,22 +6,25 @@
 
 # Próximos passos:
 
-- Componente de pedidos, tem que ter um para o cliente acompanhar o seu próprio pedido e outro para os moderadores acompanharem todos e poderem mudar o status do pedido.
-
-- Criar componentes para adicionar discontos e cupons, e fazer eles funcionarem na aplicação
+- Criar componentes para adicionar discontos e cupons, e fazer eles funcionarem na aplicação -> Tudo "desenhado" no Figma.
 
 - Ir arrumando os bugs que aparecerem
 
-# Etapas:
+- Para arrumar o problema do stock quando a conta não é admin, preciso logar na minha conta admin quando o app for mounted, salvar o token em uma váriavel e usar essa váriavel no stock. Eu salvo o token no if que compara se eu sou admin, se eu for eu vou salvar o token na váriavel, se não eu não vou fazer nada.
 
-- Criar o componente dos pedidos. Vai ter que pedir pro usuário o endereço de entrega(isso é no carrinho na hora de pagar). e deve aparecer a "porcetagem" que está de entregar.
+- Decidir se vou usar o o input da navbar ou se vou tirar
+
+- Lembrar de tirar os console.log
+
+- Arrumar os alerts
+
+# Etapas:
 
 - Desenvolver Cupons e Promoções (Deixa por último que isso não importa muito).
 
 - Subir no docker usando Dockerfile e Docker Compose.
 
 - Tentar subir na aws.
-
 
 -> Paginação OK
 
@@ -33,3 +36,6 @@
 
 -> Lista os produtos em ordem alfabeitca, agora quando clico em um item ele não fica mudando de posição OK
 
+-> Tirar o input da navbar
+
+-> Pedidos OK (tanto o do admin quanto do usuário)

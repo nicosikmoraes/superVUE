@@ -116,6 +116,8 @@ export const useUserStore = defineStore(
       userMe.role = ''
       userMe.token = ''
       admin.value = false
+      cartStore.showPage = 0
+      cartStore.cartItems = []
     }
 
     //Função para atualizar o usuário logado (UPDATE)

@@ -18,12 +18,15 @@ import { useUserStore } from '@/stores/userStore'
 import { useAlertStore } from '@/stores/alertasStore'
 import UserSideMenu from './user/userSideMenu.vue'
 import AdminSideMenu from './admin/adminSideMenu.vue'
+import { useNavStore } from '@/stores/navbarStore'
 
 const router = useRouter()
 const userStore = useUserStore()
 const alertStore = useAlertStore()
+const navStore = useNavStore()
 
 function quit() {
+  navStore.showModal = false
   router.push('/')
   userStore.quitUserMe()
   alertStore.quitAlert()

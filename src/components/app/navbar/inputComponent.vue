@@ -5,7 +5,11 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+
+const show = ref(false)
+</script>
 
 <style scoped>
 /* Input Container */

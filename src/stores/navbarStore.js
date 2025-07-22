@@ -22,6 +22,10 @@ export const useNavStore = defineStore('navbar', () => {
     showNav.value = false
   }
 
+  if (route.path === '/config') {
+    showNav.value = false
+  }
+
   // Funções
 
   // Para mudar a navbar a "mão"

@@ -1,6 +1,7 @@
 <template>
   <div class="loading-dots">
-    <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+    <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span
+    ><span class="dot">.</span><span class="dot">.</span>
   </div>
 </template>
 
@@ -25,6 +26,14 @@
 }
 .dot:nth-child(4) {
   animation-delay: 0.6s;
+}
+
+.dot:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+.dot:nth-child(6) {
+  animation-delay: 1s;
 }
 
 @keyframes blink {
