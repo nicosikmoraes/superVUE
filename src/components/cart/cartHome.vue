@@ -30,21 +30,41 @@
     </div>
 
     <div class="footer">
-      <h2>Calcular Frete:</h2>
-      <div class="inp_container">
-        <input
-          class="inp"
-          type="text"
-          v-model="cep"
-          @input="formatCep"
-          @keypress="onlyNumbers"
-          maxlength="9"
-          placeholder="00000-000"
-        />
+      <div class="all_inps_container">
+        <div class="cep_container">
+          <h2>Calcular Frete:</h2>
+          <div class="inp_container">
+            <input
+              class="inp"
+              type="text"
+              v-model="cep"
+              @input="formatCep"
+              @keypress="onlyNumbers"
+              maxlength="9"
+              placeholder="00000-000"
+            />
 
-        <button class="btn" type="button" @click="checkCep(cep)">&#8594;</button>
+            <button class="btn" type="button" @click="checkCep(cep)">
+              <Spinner v-if="loadingCep" />
+              <span v-else>&#8594;</span>
+            </button>
+          </div>
+          <p>{{ cepText }}</p>
+        </div>
+
+        <div class="coupon_container">
+          <h2>Cupom:</h2>
+          <div class="inp_container">
+            <input class="inp" type="text" v-model="coupon" placeholder="Código do Cupom" />
+
+            <button class="btn" type="button" @click="saveCoupon()">
+              <Spinner v-if="loadingCoupon" />
+              <span v-else>&#8594;</span>
+            </button>
+          </div>
+          <p>{{ couponText }}</p>
+        </div>
       </div>
-      <p>{{ cepText }}</p>
 
       <h1 class="total_price">
         Total: {{ formatPrice(Number(cartStore.cartItems?.total_amount || 0)) }}
@@ -68,20 +88,56 @@ import { onMounted, ref } from 'vue'
 import Spinner from '../form/spinner.vue'
 import { useAlertStore } from '@/stores/alertasStore'
 import { useAdminStore } from '@/stores/adminStore'
+import { useDiscountStore } from '@/stores/discounts'
 
+const discountStore = useDiscountStore()
 const adminStore = useAdminStore()
 const cartStore = useCartStore()
 const alertStore = useAlertStore()
 const loading = ref(false)
 const loadingCep = ref(false)
+const loadingCoupon = ref(false)
 const cep = ref('')
 const cepText = ref('')
 
 const productSelected = ref(null)
 
+const coupon = ref('')
+const couponText = ref('')
+
 onMounted(() => {
   getCartItems()
 })
+
+async function saveCoupon() {
+  loadingCoupon.value = true
+  try {
+    couponText.value = ''
+    if (!coupon.value) {
+      couponText.value = 'Código inválido'
+    }
+    await discountStore.getAllCoupons()
+
+    const existingCoupon = discountStore.coupons.find(
+      (c) => c.code.toLowerCase() === coupon.value.toLowerCase(),
+    )
+
+    if (existingCoupon) {
+      discountStore.coupon_id = existingCoupon.id // Armazena o ID encontrado
+      couponText.value = 'Cupom adicionado!'
+
+      Number(cartStore.cartItems.total_amount).toFixed(2)
+
+      cartStore.cartItems.total_amount =
+        cartStore.cartItems.total_amount -
+        cartStore.cartItems.total_amount * (existingCoupon.discount_percentage / 100)
+    } else {
+      couponText.value = 'Cupom não encontrado.'
+    }
+  } finally {
+    loadingCoupon.value = false
+  }
+}
 
 async function getCartItems() {
   loading.value = true
@@ -183,6 +239,20 @@ function onlyNumbers(event) {
 
 /* Body Estilos */
 
+.all_inps_container {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.cep_container {
+  width: 50%;
+}
+
+.coupon_container {
+  width: 50%;
+}
+
 .cart_items {
   display: flex;
   flex-direction: column;
@@ -266,7 +336,7 @@ h1 {
 
 /* Input */
 .inp {
-  width: 35%;
+  width: 100%;
   height: 40px;
   border: 1px solid #b5d985;
   padding: 0px 12px;

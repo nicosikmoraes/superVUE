@@ -8,6 +8,7 @@
     <Products v-if="configStore.whichMenu === 4" />
     <Requests v-if="configStore.whichMenu === 5" />
     <MyRequests v-if="configStore.whichMenu === 6" />
+    <Discounts v-if="configStore.whichMenu === 7" />
   </div>
 </template>
 
@@ -20,6 +21,7 @@ import Categories from './admin/categories/categories.vue'
 import Products from './admin/products/products.vue'
 import Requests from './admin/requests.vue'
 import MyRequests from './user/myRequests.vue'
+import Discounts from './admin/discounts/discounts.vue'
 
 const configStore = useConfigStore()
 </script>

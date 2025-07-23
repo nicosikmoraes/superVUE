@@ -47,6 +47,7 @@ import Spinner from '@/components/form/spinner.vue'
 import { usePayStore } from '@/stores/abacatePay'
 import { useAddressStore } from '@/stores/addressStore'
 import { useCartStore } from '@/stores/cartStore'
+import { useDiscountStore } from '@/stores/discounts'
 import { useOrdersStore } from '@/stores/orders'
 import { onMounted, ref } from 'vue'
 
@@ -56,6 +57,7 @@ const cartStore = useCartStore()
 const addAddress = ref(true)
 const loading = ref(false)
 const ordersStore = useOrdersStore()
+const discountsStore = useDiscountStore()
 
 onMounted(() => {
   getAddresses()
@@ -107,6 +109,7 @@ async function createQrCode() {
   try {
     await payStore.createPixQrCode()
     await ordersStore.createOrder()
+    discountsStore.coupon_id = null
     cartStore.showPage = 3
   } finally {
     loading.value = false

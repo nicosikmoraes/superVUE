@@ -44,10 +44,11 @@ import Spinner from '@/components/form/spinner.vue'
 import { useOrdersStore } from '@/stores/orders'
 import { onMounted, ref } from 'vue'
 import dayjs from 'dayjs'
+import { useAlertStore } from '@/stores/alertasStore'
 
+const alertsStore = useAlertStore()
 const ordersStore = useOrdersStore()
 const loading = ref(false)
-const loadingBtn = ref(false)
 
 onMounted(() => {
   getAllOrders()
@@ -68,6 +69,7 @@ async function updateStatus(id, status) {
   loadingOrder.loading = true
   try {
     await ordersStore.updateStatus(id, status)
+    alertsStore.successAlert('Pedido atualizado!')
   } finally {
     loadingOrder.loading = false
   }

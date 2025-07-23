@@ -3,11 +3,13 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useUserStore } from './userStore'
 import { useAddressStore } from './addressStore'
+import { useDiscountStore } from './discounts'
 
 export const useOrdersStore = defineStore('orders', () => {
   // Variáveis
   const userStore = useUserStore()
   const addressStore = useAddressStore()
+  const discountStore = useDiscountStore()
   const myOrders = ref([])
   const orders = ref([])
   const lastOrderId = ref(null)
@@ -24,7 +26,7 @@ export const useOrdersStore = defineStore('orders', () => {
         '/orders/',
         {
           address_id: addressStore.selectedAddress.id,
-          coupon_id: null,
+          coupon_id: discountStore.coupon_id,
         },
         {
           headers: {

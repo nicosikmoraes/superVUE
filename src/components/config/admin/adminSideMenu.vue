@@ -10,6 +10,7 @@
     Produtos
   </h2>
   <h2 @click="configStore.whichMenu = 5">Pedidos</h2>
+  <h2 @click="configStore.whichMenu = 7">Cupons</h2>
 </template>
 
 <script setup>
