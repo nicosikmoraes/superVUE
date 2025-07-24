@@ -69,14 +69,15 @@ const showCanvas = computed(() => route.path === '/')
   }
 
   #menu_wider {
-    width: 55px;
+    width: 50px;
   }
 }
 
 /* Responsividade Title */
 @media (max-width: 600px) {
   #title_logo {
-    display: none;
+    font-size: 22px;
+    margin-left: 10px;
   }
 }
 </style>

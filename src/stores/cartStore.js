@@ -9,6 +9,7 @@ export const useCartStore = defineStore('cart', () => {
   const userStore = useUserStore()
   const canvasCart = ref(false)
   const cartItems = ref([])
+  const alertStore = useAlertStore()
 
   // 0 = Tela do carrinho, 1 = Opção de endereços, 2 = adicionar endereço se preciso, 3 = Tela de pagamento
   const showPage = ref(0)
@@ -39,6 +40,10 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   async function addItemToCart(id, price) {
+    if (!userStore.userMe.token) {
+      alertStore.errorAlert('Faça login para adicionar produtos ao carrinho!')
+    }
+
     //Confere se o item já foi adicionado, se sim aumenta a quantidade
     const existedItem = cartItems.value.items.find((item) => item.product_id === id)
     if (existedItem) {

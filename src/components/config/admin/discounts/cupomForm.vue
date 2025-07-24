@@ -9,7 +9,7 @@
         <span v-if="errors.code" class="error">{{ errors.code }}</span>
       </div>
 
-      <div class="porcentage_inp">
+      <div class="percentage_inp">
         <p>%</p>
         <input type="number" min="0" max="100" placeholder="%" v-model.number="form.discount" />
         <span v-if="errors.discount" class="error">{{ errors.discount }}</span>
@@ -245,7 +245,7 @@ input:focus {
   width: 70%;
 }
 
-.porcentage_inp {
+.percentage_inp {
   width: 27%;
 }
 

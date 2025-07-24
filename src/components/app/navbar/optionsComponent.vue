@@ -81,7 +81,7 @@ function goToLogin() {
 }
 
 #img_cart {
-  width: 65px;
+  width: 50px;
   cursor: pointer;
 }
 

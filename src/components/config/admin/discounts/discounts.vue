@@ -21,7 +21,7 @@ import DiscountsForm from './discountsForm.vue'
   padding: 20px 50px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
   height: 55vh;
   overflow-y: auto;
 }

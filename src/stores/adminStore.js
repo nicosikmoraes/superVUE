@@ -29,6 +29,7 @@ export const useAdminStore = defineStore('admin', () => {
   const loadingProducts = ref(false)
 
   const filtered = ref([])
+  const stockToken = ref('')
 
   //Caminho padrão da API
   const api = axios.create({
@@ -226,7 +227,7 @@ export const useAdminStore = defineStore('admin', () => {
           headers: {
             accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${userStore.userMe.token}`, //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDQiLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NTMxNTc3NTZ9.JxBIjhSSYIee8H4wGzbFbqnZNtjaGn_BSZQh-LnA4Mk
+            Authorization: `Bearer ${stockToken.value}`, //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDQiLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NTMxNTc3NTZ9.JxBIjhSSYIee8H4wGzbFbqnZNtjaGn_BSZQh-LnA4Mk
           },
         },
       )
@@ -269,12 +270,25 @@ export const useAdminStore = defineStore('admin', () => {
         },
       })
 
-      //Adicionando a propriedade hover
-      const hoverProducts = res.data.map((product) => ({
-        ...product,
-        hover: false,
-        loading: false,
-      }))
+      const hoverProducts = res.data.map((product) => {
+        const price = Number(product.price) || 0
+        const discountsArray = Array.isArray(product.discounts) ? product.discounts : []
+        const lastDiscount = discountsArray.at(-1) // Pega o último desconto (mesmo com array vazia)
+
+        const discountPercentage = lastDiscount?.discount_percentage || 0
+
+        const initialPrice =
+          discountPercentage > 0
+            ? (price / (1 - discountPercentage / 100)).toFixed(2)
+            : price.toFixed(2)
+
+        return {
+          ...product,
+          hover: false,
+          loading: false,
+          initial_price: initialPrice,
+        }
+      })
 
       // Ordena por nome (ordem alfabética, insensível a acentos e maiúsculas)
       const sortedProducts = hoverProducts.sort((a, b) =>
@@ -288,6 +302,7 @@ export const useAdminStore = defineStore('admin', () => {
         applyFilters()
       }
 
+      console.log('Produtos obtidos com sucesso:', products.value)
       return products.value
     } catch (err) {
       console.log('Erro no getAllProducts:', err.response?.data || err.message)
@@ -362,6 +377,7 @@ export const useAdminStore = defineStore('admin', () => {
     updateProduct,
     updateStock,
     updateImg,
+    stockToken,
     editProduct,
     showCategories,
     showProducts,

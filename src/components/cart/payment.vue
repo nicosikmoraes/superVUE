@@ -9,6 +9,7 @@
       <p>Só aceitamos pix!</p>
       <img :src="payStore.payData.data.brCodeBase64" alt="QR Code" />
     </div>
+
     <div class="pix_btn">
       <button class="btn" type="button" @click="simulatePayment()">
         <Spinner v-if="loading" />

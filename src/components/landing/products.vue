@@ -16,7 +16,13 @@
         ></div>
         <h2 id="product_name">{{ product.name }}</h2>
 
-        <h1 id="product_price">R$ {{ product.price }}</h1>
+        <div class="prices">
+          <h1 v-if="product.initial_price !== product.price" id="initial_price">
+            R$ {{ product.initial_price }}
+          </h1>
+
+          <h1 id="product_price">R$ {{ product.price }}</h1>
+        </div>
 
         <button
           v-if="product.stock > 1"
@@ -176,6 +182,19 @@ span {
   font-weight: 900;
   color: #b5d985;
   margin-left: 10px;
+}
+
+#initial_price {
+  font-size: 18px;
+  font-weight: 650;
+  color: #b4b4b4;
+  margin-left: 10px;
+  text-decoration: line-through;
+}
+
+.prices {
+  display: flex;
+  align-items: center;
 }
 
 .product_btn {

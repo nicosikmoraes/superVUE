@@ -16,11 +16,30 @@
 import Navbar from '@/components/app/navbar/navbar.vue'
 import Footer from '@/components/app/footer.vue'
 import { useNavStore } from '@/stores/navbarStore'
-import { onMounted } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from './stores/userStore'
+import { useAdminStore } from './stores/adminStore'
 
 const navStore = useNavStore()
-const router = useRouter()
+const userStore = useUserStore()
+const adminStore = useAdminStore()
+
+//Variáveis Arrays
+const form = reactive({
+  email: 'nico@gmail.com',
+  password: '16052006',
+})
+
+onMounted(() => {
+  getToken()
+})
+
+async function getToken() {
+  await userStore.login(form)
+  adminStore.stockToken = userStore.userMe.token
+  userStore.quitUserMe()
+}
 </script>
 
 <style>
