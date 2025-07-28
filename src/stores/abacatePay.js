@@ -22,6 +22,7 @@ export const usePayStore = defineStore('pay', () => {
 
       qrCode.value = response.data.qrCode
       payData.value = response.data
+      console.log(response.data)
 
       // Retorna o QRCode gerado
       return response.data.qrCode
