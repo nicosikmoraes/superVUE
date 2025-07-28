@@ -80,9 +80,7 @@ async function addItemToCart(productId, price, stock) {
   loadProduct.loading = true
 
   try {
-    console.log(stock)
-
-    if (stock < 1) {
+    if (stock < 2) {
       alertStore.errorAlert('Item Indisponivel')
       return
     }
