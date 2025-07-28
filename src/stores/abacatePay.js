@@ -20,10 +20,8 @@ export const usePayStore = defineStore('pay', () => {
         description: 'Pagamento com abacatepay',
       })
 
-      console.log('QRCode criado com sucesso:', response.data)
       qrCode.value = response.data.qrCode
       payData.value = response.data
-      console.log('QrCode:', payData.value)
 
       // Retorna o QRCode gerado
       return response.data.qrCode
@@ -34,8 +32,6 @@ export const usePayStore = defineStore('pay', () => {
   }
 
   async function simulatePayment() {
-    console.log('Simulando pagamento com os dados:', payData.value.data.id)
-
     try {
       const response = await axios.post(
         `http://localhost:3000/api/pixQrCode/simulate-payment?id=${payData.value.data.id}`,
@@ -44,7 +40,6 @@ export const usePayStore = defineStore('pay', () => {
         },
       )
 
-      console.log('Simulado o pagamento com sucesso:', response.data)
       return response.data
     } catch (err) {
       console.error('Erro ao simular pagamento:', err.response?.data || err.message)

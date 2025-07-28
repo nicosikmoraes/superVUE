@@ -143,7 +143,6 @@ async function getCartItems() {
   loading.value = true
   try {
     cartStore.cartItems = await cartStore.getCartItems()
-    console.log('Itens do carrinho carregados:', cartStore.cartItems)
   } finally {
     loading.value = false
   }

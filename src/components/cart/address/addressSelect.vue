@@ -46,6 +46,7 @@
 import Spinner from '@/components/form/spinner.vue'
 import { usePayStore } from '@/stores/abacatePay'
 import { useAddressStore } from '@/stores/addressStore'
+import { useAlertStore } from '@/stores/alertasStore'
 import { useCartStore } from '@/stores/cartStore'
 import { useDiscountStore } from '@/stores/discounts'
 import { useOrdersStore } from '@/stores/orders'
@@ -53,6 +54,7 @@ import { onMounted, ref } from 'vue'
 
 const payStore = usePayStore()
 const addressStore = useAddressStore()
+const alertStore = useAlertStore()
 const cartStore = useCartStore()
 const addAddress = ref(true)
 const loading = ref(false)
@@ -100,7 +102,6 @@ async function selectAddress(selectedId) {
     }))
     addAddress.value = false
     addressStore.selectedAddress = clickedAddress
-    console.log('Endereço selecionado:', addressStore.selectedAddress)
   }
 }
 
@@ -108,6 +109,12 @@ async function createQrCode() {
   loading.value = true
   try {
     await payStore.createPixQrCode()
+
+    if (!payStore.payData.data.brCodeBase64) {
+      alertStore.errorAlert('Erro ao gerar QR Code')
+      return
+    }
+
     await ordersStore.createOrder()
     discountsStore.coupon_id = null
     cartStore.showPage = 3

@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useUserStore } from './userStore'
@@ -30,8 +30,6 @@ export const useAddressStore = defineStore('address', () => {
     try {
       const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,cca2')
 
-      console.log('Países obtidos com sucesso:', response.data)
-
       countries.value = response.data.sort((a, b) => a.name.common.localeCompare(b.name.common))
     } catch (err) {
       console.error('Erro ao obter países:', err.response?.data || err.message)
@@ -46,7 +44,6 @@ export const useAddressStore = defineStore('address', () => {
       )
 
       states.value = response.data.sort((a, b) => a.nome.localeCompare(b.nome))
-      console.log('Estados:', states)
 
       return response.data
     } catch (err) {
@@ -62,7 +59,6 @@ export const useAddressStore = defineStore('address', () => {
       )
 
       cities.value = response.data.sort((a, b) => a.nome.localeCompare(b.nome))
-      console.log('Cidades:', cities)
     } catch (err) {
       console.error('Erro ao obter cidades:', err.response?.data || err.message)
       return null
@@ -128,7 +124,6 @@ export const useAddressStore = defineStore('address', () => {
         },
       })
 
-      console.log('Endereço deletado com sucesso:', response.data)
       await getAddresses()
       return response.data
     } catch (err) {

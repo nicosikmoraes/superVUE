@@ -39,7 +39,6 @@ export const useDiscountStore = defineStore('discounts', () => {
         },
       )
 
-      console.log('Cupom criado com sucesso!', response.data)
       return response.data
     } catch (err) {
       console.error('Erro ao criar cupom:', err)
@@ -66,7 +65,6 @@ export const useDiscountStore = defineStore('discounts', () => {
       })
 
       coupons.value = response.data
-      console.log('Cupons obtidos com sucesso:', coupons.value)
       return response.data
     } catch (err) {
       console.error('Erro ao obter cupons:', err.response?.data || err.message)
@@ -83,7 +81,6 @@ export const useDiscountStore = defineStore('discounts', () => {
         },
       })
 
-      console.log('Cupom deletado com sucesso!', response.data)
       return response.data
     } catch (err) {
       console.error('Erro ao deletar cupom:', err.response?.data || err.message)
@@ -113,7 +110,6 @@ export const useDiscountStore = defineStore('discounts', () => {
         },
       )
 
-      console.log('Desconto criado com sucesso!', response.data)
       return response.data
     } catch (err) {
       console.error('Erro ao criar desconto:', err.response?.data || err.message)
@@ -145,7 +141,6 @@ export const useDiscountStore = defineStore('discounts', () => {
         }
       })
 
-      console.log('Descontos obtidos com sucesso:', discounts.value)
       return discounts
     } catch (err) {
       console.error('Erro ao obter descontos:', err.response?.data || err.message)
@@ -162,8 +157,6 @@ export const useDiscountStore = defineStore('discounts', () => {
             'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDQiLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NTM0MTgwMjV9.1xnWoPwvBAy_ivfC_0Gv5Pp2WMnNvWPcCYEFvgKxZ5Q',
         },
       })
-
-      console.log('Desconto deletado com sucesso:', response.data)
     } catch (error) {
       console.error('Erro ao deletar desconto:', error)
     }

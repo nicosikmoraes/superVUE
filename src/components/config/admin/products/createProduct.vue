@@ -148,7 +148,6 @@ onMounted(() => {
 })
 
 async function setData() {
-  console.log('setData', adminStore.idProductSelected)
   const product = adminStore.products.find((product) => product.id === adminStore.idProductSelected)
 
   if (!product) {

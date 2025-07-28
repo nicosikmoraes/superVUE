@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 export const useLandingStore = defineStore('landing', () => {
   // Variáveis
   const filtersName = ref([])
+
   //const landingProducts = ref([])
   const landingProducts = ref(Array.from({ length: 50 }, (_, i) => `Item ${i + 1}`))
   const currentPage = ref(1)

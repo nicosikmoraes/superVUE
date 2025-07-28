@@ -109,9 +109,11 @@ import { useAddressStore } from '@/stores/addressStore'
 import { onMounted, ref } from 'vue'
 import { useCartStore } from '@/stores/cartStore'
 import Spinner from '@/components/form/spinner.vue'
+import { useAlertStore } from '@/stores/alertasStore'
 
 const cartStore = useCartStore()
 const addressStore = useAddressStore()
+const alertStore = useAlertStore()
 const countryText = ref('')
 const isBrazil = ref(true)
 const valid = ref(false)
@@ -137,7 +139,6 @@ async function getData() {
 }
 
 function handleCountries() {
-  console.log('País selecionado:', addressStore.selectedCountry)
   if (addressStore.selectedCountry === 'BR') {
     isBrazil.value = true
     countryText.value = ''
@@ -164,7 +165,7 @@ async function addAddress() {
     await validate()
 
     if (!valid.value) {
-      console.log('Dados inválidos')
+      alertStore.errorAlert('Dados inválidos')
       return
     }
 

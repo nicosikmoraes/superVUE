@@ -29,7 +29,7 @@ import Spinner from '../spinner.vue'
 //Variáveis
 const userStore = useUserStore()
 const router = useRouter()
-const useAlert = useAlertStore()
+const alertStore = useAlertStore()
 
 const loading = ref(false)
 
@@ -46,12 +46,12 @@ async function login() {
     const res = await userStore.login(form)
 
     if (!res) {
-      useAlert.errorLoginAlert()
+      alertStore.errorAlert('Email ou senha inválidos!')
       return
     }
 
     router.push('/')
-    useAlert.loginAlert()
+    alertStore.successAlert('Seja bem vindo ' + userStore.userMe.name + '!')
   } finally {
     loading.value = false
   }

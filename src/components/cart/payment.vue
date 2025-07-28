@@ -22,7 +22,7 @@
 <script setup>
 import { usePayStore } from '@/stores/abacatePay'
 import { useCartStore } from '@/stores/cartStore'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import Spinner from '../form/spinner.vue'
 import { useAlertStore } from '@/stores/alertasStore'
 import { useOrdersStore } from '@/stores/orders'

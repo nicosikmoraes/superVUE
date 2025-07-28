@@ -30,14 +30,12 @@
 </template>
 
 <script setup>
-import { useUserStore } from '@/stores/userStore'
 import { ref, reactive } from 'vue'
 import Spinner from '@/components/form/spinner.vue'
 import { useAlertStore } from '@/stores/alertasStore'
 import { useAdminStore } from '@/stores/adminStore'
 
 //Variáveis
-const userStore = useUserStore()
 const adminStore = useAdminStore()
 const alertStore = useAlertStore()
 const loading = ref(false)
@@ -59,19 +57,18 @@ async function createModerator() {
   loading.value = true
   try {
     if (!validate()) {
-      console.log('❌ Dados inválidos')
+      alertStore.errorAlert('Dados inválidos')
       return
     }
 
     const res = await adminStore.createModerator(form)
-    console.log(res)
 
     if (!res) {
-      alertStore.errorRegisterAlert()
+      alertStore.errorAlert('Email já cadastrado!')
       return
     }
 
-    alertStore.registerAlert()
+    alertStore.successAlert('Moderador criado com sucesso!')
   } finally {
     loading.value = false
   }

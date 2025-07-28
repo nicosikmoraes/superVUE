@@ -31,7 +31,6 @@ export const useCartStore = defineStore('cart', () => {
         },
       })
 
-      console.log('Carrinho criado com sucesso!', response.data)
       return response.data
     } catch (err) {
       console.error('Erro ao criar carrinho:', err)
@@ -100,6 +99,7 @@ export const useCartStore = defineStore('cart', () => {
       return null
     }
   }
+
   async function getCartItems() {
     try {
       const res = await api.get('/cart/items', {
@@ -152,7 +152,6 @@ export const useCartStore = defineStore('cart', () => {
         return null
       }
 
-      console.log('CEP válido:', res.data)
       return res.data
     } catch (err) {
       console.error('Erro ao consultar CEP:', err.response?.data || err.message)

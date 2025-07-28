@@ -50,7 +50,6 @@ async function getCategories() {
   loading.value = true
   try {
     categories.value = await adminStore.getCategories()
-    console.log('Categorias: ', categories.value)
   } finally {
     loading.value = false
   }
@@ -62,7 +61,7 @@ async function deleteCategory(id) {
     const res = await adminStore.deleteCategory(id)
 
     await getCategories()
-    alertStore.categoryDeleteAlert()
+    alertStore.successAlert('Categoria Deletada!')
   } finally {
     loading.value = false
   }

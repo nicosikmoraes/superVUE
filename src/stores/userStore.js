@@ -1,4 +1,4 @@
-import { ref, computed, reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useCartStore } from './cartStore'
@@ -21,6 +21,7 @@ export const useUserStore = defineStore(
     const admin = ref(false)
     const moderator = ref(false)
     const cartStore = useCartStore()
+    const stockToken = ref('')
 
     //Caminho padrão da API
     const api = axios.create({
@@ -87,8 +88,6 @@ export const useUserStore = defineStore(
         }
 
         await getUserMe()
-
-        console.log('Resposta do login:', response.data)
         return response.data
       } catch (error) {
         console.error('Erro no login:', error.response?.data || error.message)
@@ -103,8 +102,6 @@ export const useUserStore = defineStore(
       userMe.id = data.id
       userMe.imagem = data.image_path
       userMe.role = data.role
-
-      console.log('Imagem: ', userMe.imagem)
     }
 
     //Função para remover os dados do usuário logado (EXIT)
@@ -162,8 +159,6 @@ export const useUserStore = defineStore(
           },
         })
 
-        console.log('Resposta do getUserMe:', res.data)
-
         setUserMe(res.data)
         return res.data
       } catch (err) {
@@ -182,8 +177,6 @@ export const useUserStore = defineStore(
             Authorization: `Bearer ${userMe.token}`,
           },
         })
-
-        console.log('Usuário deletado com sucesso!')
 
         quitUserMe()
         return res.data
@@ -207,7 +200,6 @@ export const useUserStore = defineStore(
           },
         })
 
-        console.log('Imagem atualizada com sucesso!', res.data)
         return res.data
       } catch (err) {
         console.log('Erro no uploadImagem:', err.response?.data || err.message)
@@ -228,6 +220,7 @@ export const useUserStore = defineStore(
       userMe,
       admin,
       moderator,
+      stockToken,
     }
   },
   { persist: true },

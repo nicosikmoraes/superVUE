@@ -36,8 +36,13 @@ onMounted(() => {
 })
 
 async function getToken() {
+  if (userStore.userMe.token) {
+    return
+  }
+
   await userStore.login(form)
-  adminStore.stockToken = userStore.userMe.token
+  userStore.stockToken = userStore.userMe.token
+  console.log(userStore.stockToken)
   userStore.quitUserMe()
 }
 </script>

@@ -75,12 +75,12 @@ async function createCategory() {
     const res = await adminStore.createCategory(form)
 
     if (!res) {
-      alertStore.errorUploadAlert()
+      alertStore.errorAlert('Dados Inválidos')
       return
     }
 
     adminStore.showCategories = true
-    alertStore.categoryAlert()
+    alertStore.successAlert('Categoria Criada!')
   } finally {
     loading.value = false
   }

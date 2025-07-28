@@ -62,11 +62,11 @@ async function updateUserName() {
     const res = await userStore.updateUserMe(name.value, userStore.userMe.email)
 
     if (!res) {
-      alertStore.errorUpdateNameAlert()
+      alertStore.errorAlert('O nome precisa ser diferente!')
       return
     }
 
-    alertStore.updateNameAlert()
+    alertStore.successAlert('Nome Atualizado!')
   } finally {
     loadingName.value = false
   }
@@ -78,11 +78,11 @@ async function updateUserEmail() {
     const res = await userStore.updateUserMe(userStore.userMe.name, email.value)
 
     if (!res) {
-      alertStore.errorUpdateEmailAlert()
+      alertStore.errorAlert('O email precisa ser diferente!')
       return
     }
 
-    alertStore.updateEmailAlert()
+    alertStore.successAlert('Email Atualizado!')
   } finally {
     loadingEmail.value = false
   }
@@ -96,13 +96,13 @@ async function handleFile(event) {
       const res = await userStore.uploadImagem(file)
 
       if (!res) {
-        alertStore.errorUploadAlert()
+        alertStore.errorAlert('Apenas arquivos JPG ou PNG são permitidos.')
         return
       }
 
       await userStore.getUserMe()
 
-      alertStore.updateImageAlert()
+      alertStore.successAlert('Imagem Atualizada!')
     }
   } finally {
     loadingImage.value = false

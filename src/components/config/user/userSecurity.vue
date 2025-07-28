@@ -23,7 +23,7 @@ const router = useRouter()
 async function deleteUser() {
   const res = await userStore.deleteUserMe()
   router.push('/')
-  alertStore.deleteAlert()
+  alertStore.successAlert('Conta Deletada!')
 }
 
 function confirmDeletion() {

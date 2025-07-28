@@ -36,7 +36,7 @@ import { ref } from 'vue'
 
 //Variáveis
 const userStore = useUserStore()
-const useAlert = useAlertStore()
+const alertStore = useAlertStore()
 const router = useRouter()
 
 const loading = ref(false)
@@ -58,20 +58,20 @@ async function createUser() {
   loading.value = true
   try {
     if (!validate()) {
-      console.log('❌ Dados inválidos')
+      alertStore.errorAlert('Dados inválidos')
       return
     }
 
     const res = await userStore.createUser(form)
-    console.log(res)
 
     if (!res) {
-      useAlert.errorRegisterAlert()
+      alertStore.errorAlert('Email já cadastrado!')
       return
     }
 
+    alertStore.successAlert('Conta Criada!')
     router.push('/')
-    useAlert.registerAlert()
+    use
   } finally {
     loading.value = false
   }

@@ -7,7 +7,6 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
 import CreateProduct from './createProduct.vue'
 import ShowProducts from './showProducts.vue'
 import { useAdminStore } from '@/stores/adminStore'

@@ -1,8 +1,7 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useUserStore } from './userStore'
 import axios from 'axios'
-import { useAlertStore } from './alertasStore'
 import { useRoute } from 'vue-router'
 import { useLandingStore } from './landingStore'
 
@@ -29,7 +28,6 @@ export const useAdminStore = defineStore('admin', () => {
   const loadingProducts = ref(false)
 
   const filtered = ref([])
-  const stockToken = ref('')
 
   //Caminho padrão da API
   const api = axios.create({
@@ -58,7 +56,6 @@ export const useAdminStore = defineStore('admin', () => {
         },
       )
 
-      console.log('Moderador criado com sucesso!', response.data)
       return response.data
     } catch (err) {
       console.log('Erro no createModerator:', err.response?.data || err.message)
@@ -89,7 +86,6 @@ export const useAdminStore = defineStore('admin', () => {
         },
       })
 
-      console.log('Categoria criada com sucesso!', response.data)
       return response.data
     } catch (err) {
       console.log('Erro no createCategory:', err.response?.data || err.message)
@@ -130,7 +126,6 @@ export const useAdminStore = defineStore('admin', () => {
         },
       })
 
-      console.log('Categoria deletada com sucesso!', response.data)
       return response.data
     } catch (err) {
       console.log('Erro no deleteCategory:', err.response?.data || err.message)
@@ -171,7 +166,6 @@ export const useAdminStore = defineStore('admin', () => {
         },
       })
 
-      console.log('Produto criado com sucesso!', response.data)
       return response.data
     } catch (err) {
       console.log('Erro no createProduct:', err.response?.data || err.message)
@@ -208,7 +202,6 @@ export const useAdminStore = defineStore('admin', () => {
         },
       )
 
-      console.log('Produto atualizado com sucesso!', response.data)
       return response.data
     } catch (err) {
       console.log('Erro no editProduct:', err.response?.data || err.message)
@@ -227,7 +220,7 @@ export const useAdminStore = defineStore('admin', () => {
           headers: {
             accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${stockToken.value}`, //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDQiLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NTMxNTc3NTZ9.JxBIjhSSYIee8H4wGzbFbqnZNtjaGn_BSZQh-LnA4Mk
+            Authorization: `Bearer ${userStore.stockToken}`, //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDQiLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3NTMxNTc3NTZ9.JxBIjhSSYIee8H4wGzbFbqnZNtjaGn_BSZQh-LnA4Mk
           },
         },
       )
@@ -252,7 +245,6 @@ export const useAdminStore = defineStore('admin', () => {
         },
       })
 
-      console.log('Imagem atualizada com sucesso!', response.data)
       return response.data
     } catch (err) {
       console.log('Erro no updateImg:', err.response?.data || err.message)
@@ -302,7 +294,6 @@ export const useAdminStore = defineStore('admin', () => {
         applyFilters()
       }
 
-      console.log('Produtos obtidos com sucesso:', products.value)
       return products.value
     } catch (err) {
       console.log('Erro no getAllProducts:', err.response?.data || err.message)
@@ -337,7 +328,6 @@ export const useAdminStore = defineStore('admin', () => {
         },
       })
 
-      console.log('Produto deletado com sucesso!', res.data)
       return res.data
     } catch (err) {
       console.log('Erro no deleteProduct:', err.response?.data || err.message)
@@ -377,7 +367,6 @@ export const useAdminStore = defineStore('admin', () => {
     updateProduct,
     updateStock,
     updateImg,
-    stockToken,
     editProduct,
     showCategories,
     showProducts,

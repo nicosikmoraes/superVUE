@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useUserStore } from './userStore'
@@ -37,7 +37,6 @@ export const useOrdersStore = defineStore('orders', () => {
         },
       )
 
-      console.log('Pedidos atualizados:', response.data)
       lastOrderId.value = response.data.id
       return response.data
     } catch (error) {
@@ -51,7 +50,7 @@ export const useOrdersStore = defineStore('orders', () => {
       const response = await api.get('/orders/all/144', {
         headers: {
           accept: 'application/json',
-          Authorization: `Bearer ${userStore.userMe.token}`,
+          Authorization: `Bearer ${userStore.stockToken}`,
         },
       })
 
@@ -63,7 +62,6 @@ export const useOrdersStore = defineStore('orders', () => {
         }))
 
       orders.value = newProducts
-      console.log('Pedidos obtidos:', orders.value)
       return response.data
     } catch (error) {
       console.error('Erro ao obter pedidos:', error)
@@ -88,7 +86,6 @@ export const useOrdersStore = defineStore('orders', () => {
         }))
 
       myOrders.value = newProducts
-      console.log('Meus pedidos obtidos:', myOrders.value)
       return response.data
     } catch (error) {
       console.error('Erro ao obter pedidos:', error)
@@ -112,12 +109,11 @@ export const useOrdersStore = defineStore('orders', () => {
           headers: {
             accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${userStore.userMe.token}`,
+            Authorization: `Bearer ${userStore.stockToken}`,
           },
         },
       )
 
-      console.log('Pedidos atualizados:', response.data)
       await getAllOrders()
       return response.data
     } catch (error) {
@@ -135,7 +131,6 @@ export const useOrdersStore = defineStore('orders', () => {
         },
       })
 
-      console.log('Pedidos deletados:', response.data)
       await getAllOrders()
       return response.data
     } catch (error) {

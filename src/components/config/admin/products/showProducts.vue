@@ -59,7 +59,6 @@ async function getAllProducts() {
   adminStore.loadingProducts = true
   try {
     await adminStore.getAllProducts()
-    console.log('Produtos: ', adminStore.products)
   } finally {
     adminStore.loadingProducts = false
   }
