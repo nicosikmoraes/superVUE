@@ -69,7 +69,7 @@ const showCanvas = computed(() => route.path === '/')
   }
 
   #menu_wider {
-    width: 50px;
+    width: 38px;
   }
 }
 
