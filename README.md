@@ -1,6 +1,6 @@
 # SuperVUE
 
-## Link do site
+## Deploy
  http://18.221.77.81/
 
 ## Author:
